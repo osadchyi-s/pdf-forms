@@ -1,0 +1,9 @@
+{
+  "name": "pdffiller/public-rest-api-validation-rules",
+  "description": "Validation rules for PDFfiller API endpoints data.",
+  "autoload": {
+    "psr-4": {
+      "PDFfiller\\Validation\\": "Validation/"
+    }
+  }
+}

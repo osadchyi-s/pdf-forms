@@ -1,0 +1,8 @@
+.switcher-fox { display: inline; font-family: Verdana; }
+.switcher-fox input[type=radio] { display: none; }
+.switcher-fox input[type=radio]:checked + label { display: inline; }
+.switcher-fox label { border-radius: 15px; cursor: pointer; padding: 5px 20px 5px 20px; display: none; }
+.switcher-fox label.on { color: white; background: #6CB56C; border: #777 solid 2px; text-shadow: -1px -1px 0 #000,   1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; }
+.switcher-fox label.off { color: black; background: #DDD; border: #999 solid 2px; text-shadow: -1px -1px 0 #fff,   1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff; }
+
+/*# sourceMappingURL=switcher.min.css.map */

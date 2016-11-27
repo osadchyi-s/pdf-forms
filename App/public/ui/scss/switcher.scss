@@ -1,0 +1,40 @@
+.switcher-fox {
+	display: inline;
+	font-family: Verdana;
+	input[type=radio] {
+		display: none;
+		&:checked {
+			&+ label {
+				display: inline;
+			}
+		}
+	}
+
+	label {
+		border-radius: 15px;
+		cursor: pointer;
+		padding: 5px 20px 5px 20px;
+		display: none;
+		&.on {
+			color: white;
+			background: #6CB56C;
+			border: #777 solid 2px;
+			text-shadow:
+				-1px -1px 0 #000,  
+				 1px -1px 0 #000,
+				 -1px 1px 0 #000,
+				  1px 1px 0 #000;
+		}
+
+		&.off {
+			color: black;
+			background: #DDD;
+			border: #999 solid 2px;
+			text-shadow:
+				-1px -1px 0 #fff,  
+				 1px -1px 0 #fff,
+				 -1px 1px 0 #fff,
+				  1px 1px 0 #fff;
+		}
+	}
+}

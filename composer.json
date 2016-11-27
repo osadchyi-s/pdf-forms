@@ -1,0 +1,25 @@
+{
+    "name": "osadchyi.s/pdf-forms",
+    "description": "Html Form data to PDF Document",
+    "authors": [
+        {
+            "name": "Osadchyi Serhii",
+            "email": "sergijlys@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "PdfFormsLoader\\": "App/"
+        }
+    },
+    "require": {
+        "weew/php-helpers-array": "^1.3",
+        "pdffiller/pdffiller-php-api-client": "^1.5"
+    },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "git@github.com:osadchyi-s/pdffiller-php-api-client.git"
+        }
+    ]
+}
