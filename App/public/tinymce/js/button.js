@@ -68,7 +68,7 @@ tinymce.PluginManager.add( 'pdfforms_list_button', function( editor, url ) {
         // Calls the pop-up modal
         editor.windowManager.open({
             // Modal settings
-            title: 'Insert form field',
+            title: 'Insert form',
             width: jQuery( window ).width() * 0.4,
             // minus head and foot of dialog box
             height: (jQuery( window ).height() - 36 - 50) * 0.4,

@@ -6,12 +6,13 @@ use PdfFormsLoader\Models\MainSettingsModel;
 
 use PDFfiller\OAuth2\Client\Provider\PDFfiller;
 use \PDFfiller\OAuth2\Client\Provider\FillableTemplate;
+use \PDFfiller\OAuth2\Client\Provider\FillRequest;
 use \PDFfiller\OAuth2\Client\Provider\Document;
 use \GuzzleHttp\Client;
 
 class PDFFillerModel
 {
-    const EXPIRES = 7200;
+    const EXPIRES = 1200;
     public static $PDFFillerProvider;
 
     public function __construct() {
@@ -82,5 +83,23 @@ class PDFFillerModel
         }
 
         return $fillableFields['items'];
+    }
+
+    public function getLinkToFillDocuments() {
+        $l2fList = get_option('pdfform_l2f_list', null);
+
+        if (empty($l2fList['expires']) || $l2fList['expires'] < time()) {
+            try{
+                $response = FillRequest::all(self::$PDFFillerProvider, ['perpage' => 100]);
+                dd($response->toArray(), 'test-111');
+
+                update_option('pdfform_l2f_list', ['expires'=>time() + self::EXPIRES, 'items' => $response['items'] ]);
+                return $this->getLinkToFillDocuments();
+            } catch(\PDFfiller\OAuth2\Client\Provider\Core\Exception $e) {
+                return null;
+            }
+        }
+
+        return $l2fList['items'];
     }
 }

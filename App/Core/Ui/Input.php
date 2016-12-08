@@ -107,6 +107,9 @@ use PdfFormsLoader\Core\Assets;
 			$attributes = '';
 			foreach ( $this->settings as $key => $value ) {
 				$attributes .= ' ' . $key . '="' . $value . '"';
+                if ($key == 'type' && $value == 'checkbox') {
+                    // #TODO for checkbox
+                }
 			}
 
             $html = Views::render(

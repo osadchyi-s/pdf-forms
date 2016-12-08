@@ -56,8 +56,9 @@ class PdfFormsLoader {
     }
 
     private function addWidgets() {
-        add_action( 'widgets_init', function(){
+        add_action( 'widgets_init', function() {
             register_widget( 'PdfFormsLoader\Widgets\PdfFormWidget' );
+            register_widget( 'PdfFormsLoader\Widgets\EmbeddedJsClientWidget' );
         });
     }
 
