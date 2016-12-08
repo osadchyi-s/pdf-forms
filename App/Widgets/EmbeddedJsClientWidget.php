@@ -102,13 +102,15 @@ class EmbeddedJsClientWidget extends \WP_Widget
         //$documentIdSelect = ! empty( $instance['documentId'] ) ? $instance['documentId'] : self::DEMO_DOCUMENT_ID; // https://www.pdffiller.com/en/project/86685380.htm?mode=link_to_fill
 
         $documents = (new PDFFillerModel())->getLinkToFillDocuments();
-        dd($documents);
+        //dd($documents, 'test-222');
 
         $l2fList = [];
         foreach($documents as $document) {
-            $l2fList[$document->url] = $document->document_name;
+            $l2fList[$document->url] = $document->document_id;
+            //dd();
         }
 
+        //dd($l2fList, 'test-222');
         //$documents[self::DEMO_DOCUMENT_ID] = 'demo';
 
         $documentId = new Select([

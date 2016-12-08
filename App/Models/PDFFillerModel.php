@@ -87,13 +87,21 @@ class PDFFillerModel
 
     public function getLinkToFillDocuments() {
         $l2fList = get_option('pdfform_l2f_list', null);
+        //dd($l2fList, 'test-111');
 
         if (empty($l2fList['expires']) || $l2fList['expires'] < time()) {
             try{
                 $response = FillRequest::all(self::$PDFFillerProvider, ['perpage' => 100]);
-                dd($response->toArray(), 'test-111');
+                $l2f = [];
+                foreach($response->getList() as $id => $item) {
+                    $l2f[] = [
+                        'document_id' => $item->document_id,
+                        'name' => $item->document_name,
+                        'url' => $item->url,
+                    ];
+                }
 
-                update_option('pdfform_l2f_list', ['expires'=>time() + self::EXPIRES, 'items' => $response['items'] ]);
+                update_option('pdfform_l2f_list', ['expires'=>time() + self::EXPIRES, 'items' => $l2f  ]);
                 return $this->getLinkToFillDocuments();
             } catch(\PDFfiller\OAuth2\Client\Provider\Core\Exception $e) {
                 return null;
