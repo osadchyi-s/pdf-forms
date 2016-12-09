@@ -11,7 +11,7 @@ use PdfFormsLoader\Models\PDFFillerModel;
 
 class EmbeddedJsClientWidget extends \WP_Widget
 {
-    const DEMO_DOCUMENT_ID = 86685380;
+    const DEMO_DOCUMENT_ID = '//pdf.ac/73aLAc';
 
     protected $fields = [
         'title',
@@ -99,25 +99,20 @@ class EmbeddedJsClientWidget extends \WP_Widget
             'value'   => $clientIdText,
         ]);
 
-        //$documentIdSelect = ! empty( $instance['documentId'] ) ? $instance['documentId'] : self::DEMO_DOCUMENT_ID; // https://www.pdffiller.com/en/project/86685380.htm?mode=link_to_fill
+        $documentIdSelect = ! empty( $instance['documentId'] ) ? $instance['documentId'] : self::DEMO_DOCUMENT_ID; // https://www.pdffiller.com/en/project/86685380.htm?mode=link_to_fill
 
         $documents = (new PDFFillerModel())->getLinkToFillDocuments();
-        //dd($documents, 'test-222');
 
-        $l2fList = [];
+        $l2fList = [self::DEMO_DOCUMENT_ID => 'demo'];
         foreach($documents as $document) {
-            $l2fList[$document->url] = $document->document_id;
-            //dd();
+            $l2fList[$document['url']] = $document['name'];
         }
-
-        //dd($l2fList, 'test-222');
-        //$documents[self::DEMO_DOCUMENT_ID] = 'demo';
 
         $documentId = new Select([
             'label'     => esc_html__( 'Choose form', 'pdfforms' ),
             'name'    => $this->get_field_name( 'documentId' ),
             'options'   => $l2fList,
-            //'default'   => $documentIdSelect,
+            'default'   => $documentIdSelect,
         ]);
 
         $widthText = ! empty( $instance['width'] ) ? $instance['width'] : '960';

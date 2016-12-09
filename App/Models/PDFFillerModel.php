@@ -86,6 +86,21 @@ class PDFFillerModel
     }
 
     public function getLinkToFillDocuments() {
+        $response = FillRequest::all(self::$PDFFillerProvider, ['perpage' => 100]);
+        $l2f = [];
+        foreach($response->getList() as $id => $item) {
+            $document = Document::one(self::$PDFFillerProvider, $item->document_id);
+            $l2f[] = [
+                'document_id' => $item->document_id,
+                'name' => $document->name,
+                'url' => $item->url,
+            ];
+        }
+        update_option('pdfform_l2f_list', ['expires'=>time() + self::EXPIRES, 'items' => $l2f  ]);
+        return $l2f;
+
+
+        //////
         $l2fList = get_option('pdfform_l2f_list', null);
         //dd($l2fList, 'test-111');
 

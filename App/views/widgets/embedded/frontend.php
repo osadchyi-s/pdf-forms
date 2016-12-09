@@ -3,7 +3,7 @@
 <?php echo $__data['title']; ?>
 <?php echo $__data['afterTitle']; ?>
 
-<button class="pdfform-embedded" data-clientid="<?php echo $__data['clientId']; ?>"
+<button class="pdfform-embedded <?php echo $__data['customClass']; ?>" data-clientid="<?php echo $__data['clientId']; ?>"
         data-url="<?php echo $__data['documentId']; ?>"
         data-width="<?php echo $__data['width']; ?>"
         data-height="<?php echo $__data['height']; ?>">
