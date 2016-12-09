@@ -6,6 +6,7 @@ use Closure;
 use DateTime;
 use Countable;
 use Exception;
+use Throwable;
 use DateTimeZone;
 use RuntimeException;
 use DateTimeInterface;
@@ -64,13 +65,6 @@ class Validator implements ValidatorContract
      * @var array
      */
     protected $data;
-
-    /**
-     * The files under validation.
-     *
-     * @var array
-     */
-    protected $files = [];
 
     /**
      * The initial rules provided.
@@ -197,13 +191,14 @@ class Validator implements ValidatorContract
      * @param  array  $customAttributes
      * @return void
      */
-    public function __construct(TranslatorInterface $translator, array $data, array $rules, array $messages = [], array $customAttributes = [])
+    public function __construct(TranslatorInterface $translator, array $data, array $rules,
+                                array $messages = [], array $customAttributes = [])
     {
         $this->initialRules = $rules;
         $this->translator = $translator;
         $this->customMessages = $messages;
         $this->customAttributes = $customAttributes;
-        $this->data = $this->hydrateFiles($this->parseData($data));
+        $this->data = $this->parseData($data);
 
         $this->setRules($rules);
     }
@@ -234,43 +229,12 @@ class Validator implements ValidatorContract
     }
 
     /**
-     * Hydrate the files array.
-     *
-     * @param  array   $data
-     * @param  string  $arrayKey
-     * @return array
-     */
-    protected function hydrateFiles(array $data, $arrayKey = null)
-    {
-        if (is_null($arrayKey)) {
-            $this->files = [];
-        }
-
-        foreach ($data as $key => $value) {
-            $key = ($arrayKey) ? "$arrayKey.$key" : $key;
-
-            // If this value is an instance of the HttpFoundation File class we will
-            // remove it from the data array and add it to the files array, which
-            // we use to conveniently separate out these files from other data.
-            if ($value instanceof File) {
-                $this->files[$key] = $value;
-
-                unset($data[$key]);
-            } elseif (is_array($value)) {
-                $this->hydrateFiles($value, $key);
-            }
-        }
-
-        return $data;
-    }
-
-    /**
      * Explode the rules into an array of rules.
      *
-     * @param  string|array  $rules
+     * @param  array  $rules
      * @return array
      */
-    protected function explodeRules($rules)
+    protected function explodeRules(array $rules)
     {
         foreach ($rules as $key => $rule) {
             if (Str::contains($key, '*')) {
@@ -278,7 +242,13 @@ class Validator implements ValidatorContract
 
                 unset($rules[$key]);
             } else {
-                $rules[$key] = (is_string($rule)) ? explode('|', $rule) : $rule;
+                if (is_string($rule)) {
+                    $rules[$key] = explode('|', $rule);
+                } elseif (is_object($rule)) {
+                    $rules[$key] = [$rule];
+                } else {
+                    $rules[$key] = $rule;
+                }
             }
         }
 
@@ -509,6 +479,8 @@ class Validator implements ValidatorContract
      */
     protected function validateAttribute($attribute, $rule)
     {
+        $this->currentRule = $rule;
+
         list($rule, $parameters) = $this->parseRule($rule);
 
         if ($rule == '') {
@@ -603,11 +575,7 @@ class Validator implements ValidatorContract
      */
     protected function getValue($attribute)
     {
-        if (! is_null($value = Arr::get($this->data, $attribute))) {
-            return $value;
-        } elseif (! is_null($value = Arr::get($this->files, $attribute))) {
-            return $value;
-        }
+        return Arr::get($this->data, $attribute);
     }
 
     /**
@@ -653,8 +621,7 @@ class Validator implements ValidatorContract
     {
         if ($this->hasRule($attribute, ['Sometimes'])) {
             return array_key_exists($attribute, Arr::dot($this->data))
-                || in_array($attribute, array_keys($this->data))
-                || array_key_exists($attribute, $this->files);
+                || in_array($attribute, array_keys($this->data));
         }
 
         return true;
@@ -826,7 +793,7 @@ class Validator implements ValidatorContract
      */
     protected function validatePresent($attribute, $value)
     {
-        return Arr::has(array_merge($this->data, $this->files), $attribute);
+        return Arr::has($this->data, $attribute);
     }
 
     /**
@@ -838,7 +805,7 @@ class Validator implements ValidatorContract
      */
     protected function validateFilled($attribute, $value)
     {
-        if (Arr::has(array_merge($this->data, $this->files), $attribute)) {
+        if (Arr::has($this->data, $attribute)) {
             return $this->validateRequired($attribute, $value);
         }
 
@@ -1014,7 +981,7 @@ class Validator implements ValidatorContract
         $count = 0;
 
         foreach ($attributes as $key) {
-            if (Arr::get($this->data, $key) || Arr::get($this->files, $key)) {
+            if (Arr::get($this->data, $key)) {
                 $count++;
             }
         }
@@ -1387,10 +1354,11 @@ class Validator implements ValidatorContract
         $this->requireParameterCount(1, $parameters, 'unique');
 
         list($connection, $table) = $this->parseTable($parameters[0]);
+
         // The second parameter position holds the name of the column that needs to
         // be verified as unique. If this parameter isn't specified we will just
         // assume that this column to be verified shares the attribute's name.
-        $column = isset($parameters[1])
+        $column = isset($parameters[1]) && $parameters[1] !== 'NULL'
                     ? $parameters[1] : $this->guessColumnForQuery($attribute);
 
         list($idColumn, $id) = [null, null];
@@ -1419,6 +1387,10 @@ class Validator implements ValidatorContract
         $verifier->setConnection($connection);
 
         $extra = $this->getUniqueExtra($parameters);
+
+        if ($this->currentRule instanceof Rules\Unique) {
+            $extra = array_merge($extra, $this->currentRule->queryCallbacks());
+        }
 
         return $verifier->getCount(
             $table, $column, $value, $id, $idColumn, $extra
@@ -1482,7 +1454,7 @@ class Validator implements ValidatorContract
         // The second parameter position holds the name of the column that should be
         // verified as existing. If this parameter is not specified we will guess
         // that the columns being "verified" shares the given attribute's name.
-        $column = isset($parameters[1])
+        $column = isset($parameters[1]) && $parameters[1] !== 'NULL'
                     ? $parameters[1] : $this->guessColumnForQuery($attribute);
 
         $expected = (is_array($value)) ? count($value) : 1;
@@ -1509,6 +1481,10 @@ class Validator implements ValidatorContract
         $verifier->setConnection($connection);
 
         $extra = $this->getExtraExistConditions($parameters);
+
+        if ($this->currentRule instanceof Rules\Exists) {
+            $extra = array_merge($extra, $this->currentRule->queryCallbacks());
+        }
 
         if (is_array($value)) {
             return $verifier->getMultiCount($table, $column, $value, $extra);
@@ -1634,7 +1610,11 @@ class Validator implements ValidatorContract
         }
 
         if ($url = parse_url($value, PHP_URL_HOST)) {
-            return count(dns_get_record($url, DNS_A | DNS_AAAA)) > 0;
+            try {
+                return count(dns_get_record($url, DNS_A | DNS_AAAA)) > 0;
+            } catch (Exception $e) {
+                return false;
+            }
         }
 
         return false;
@@ -1997,6 +1977,8 @@ class Validator implements ValidatorContract
             new DateTimeZone($value);
         } catch (Exception $e) {
             return false;
+        } catch (Throwable $e) {
+            return false;
         }
 
         return true;
@@ -2167,7 +2149,7 @@ class Validator implements ValidatorContract
             return 'numeric';
         } elseif ($this->hasRule($attribute, ['Array'])) {
             return 'array';
-        } elseif (array_key_exists($attribute, $this->files)) {
+        } elseif ($this->getValue($attribute) instanceof UploadedFile) {
             return 'file';
         }
 
@@ -2637,7 +2619,7 @@ class Validator implements ValidatorContract
      */
     public function attributes()
     {
-        return array_merge($this->data, $this->files);
+        return $this->data;
     }
 
     /**
@@ -2811,7 +2793,7 @@ class Validator implements ValidatorContract
      */
     protected function getExplicitKeys($attribute)
     {
-        $pattern = str_replace('\*', '([^\.]+)', preg_quote($this->getPrimaryAttribute($attribute)));
+        $pattern = str_replace('\*', '([^\.]+)', preg_quote($this->getPrimaryAttribute($attribute), '/'));
 
         if (preg_match('/^'.$pattern.'/', $attribute, $keys)) {
             array_shift($keys);
@@ -3069,29 +3051,6 @@ class Validator implements ValidatorContract
     public function setValueNames(array $values)
     {
         $this->customValues = $values;
-
-        return $this;
-    }
-
-    /**
-     * Get the files under validation.
-     *
-     * @return array
-     */
-    public function getFiles()
-    {
-        return $this->files;
-    }
-
-    /**
-     * Set the files under validation.
-     *
-     * @param  array  $files
-     * @return $this
-     */
-    public function setFiles(array $files)
-    {
-        $this->files = $files;
 
         return $this;
     }

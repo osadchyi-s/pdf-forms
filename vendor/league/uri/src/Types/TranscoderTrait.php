@@ -6,7 +6,7 @@
  * @author    Ignace Nyamagana Butera <nyamsprod@gmail.com>
  * @copyright 2013-2015 Ignace Nyamagana Butera
  * @license   https://github.com/thephpleague/uri/blob/master/LICENSE (MIT License)
- * @version   4.2.0
+ * @version   4.1.0
  * @link      https://github.com/thephpleague/uri/
  */
 namespace League\Uri\Types;
@@ -67,15 +67,14 @@ trait TranscoderTrait
     protected static function encode($str, $regexp)
     {
         $encoder = function (array $matches) {
+            if (preg_match('/^[A-Za-z0-9_\-\.~]$/', rawurldecode($matches[0]))) {
+                return $matches[0];
+            }
+
             return rawurlencode($matches[0]);
         };
 
-        $str = preg_replace_callback($regexp, $encoder, $str);
-        $formatter = function (array $matches) {
-            return strtoupper($matches[0]);
-        };
-
-        return preg_replace_callback(',%'.self::$encodedChars.',', $formatter, $str);
+        return preg_replace_callback($regexp, $encoder, $str);
     }
 
     /**

@@ -73,8 +73,7 @@ class PdfFormsLoader {
             'priority' => 1,
             'field' => [
                 'type' => 'select',
-                'options' => $documents,
-                'is_default' => true,
+                'options' => $documents
             ],
         ]);
 
@@ -156,6 +155,8 @@ class PdfFormsLoader {
             }
         }
 
+        //dd($template);
+
         return $template;
     }
 
@@ -167,11 +168,18 @@ class PdfFormsLoader {
 
         $fields = [];
         foreach($template as $field) {
+            $list = [];
+            if (!empty($field->list) && is_array($field->list)) {
+                foreach($field->list as $item) {
+                    $list[$item] = $item;
+                }
+            }
             $fields[] = (object) [
                 'field-type' => $field->type,
                 'type' => 'button',
                 'name' => $field->name,
                 'text' => $field->name,
+                'list' => implode(',', $list),
                 'id' => $field->name,
                 'class' => 'pdfform-editor-button',
             ];

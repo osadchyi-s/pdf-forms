@@ -22,5 +22,6 @@ class FillableField extends Object
         'format',
         'initial',
         'required',
+        'list',
     ];
 }

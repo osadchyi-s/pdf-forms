@@ -20,32 +20,16 @@ class PDFFillerModel
             'clientId'       => '',
             'clientSecret'   => '',
             'urlAccessToken' => '',
-            'urlApiDomain'   => 'http://api.pdffiller.com/v1/',
+            'urlApiDomain'   => 'https://api.pdffiller.com/v1/',
         ]);
         self::$PDFFillerProvider->setAccessTokenHash(MainSettingsModel::getSettingItemCache('pdffiller-api-key'));
     }
 
     public function saveFillableTemplates($fillableTemplateid, $fields) {
-
-        $client = new Client( [  'base_uri' => 'https://api.pdffiller.com' ] );
-        $response = $client->request( 'POST', 'v1/fillable_template/?default-error-page=1', [
-            'headers' => [
-                'Content-Type'     => 'application/json; charset=utf-8',
-                'Authorization'    => 'Bearer ' . self::$PDFFillerProvider->getAccessToken(),
-            ],
-            'json' => [
-                "document_id"     => $fillableTemplateid,
-                "fillable_fields" => $fields,
-            ]
-        ]);
-
-        return $response->getStatusCode();
-
-        /*
         $fillableTemplate = new FillableTemplate(self::$PDFFillerProvider);
         $fillableTemplate->document_id = $fillableTemplateid;
         $fillableTemplate->fillable_fields = $fields;
-        $fillableTemplate->save();*/
+        return $fillableTemplate->save();
     }
 
     public function getFillableTemplates() {

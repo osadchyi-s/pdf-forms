@@ -1,6 +1,6 @@
 (function($){
 
-$('.pdfform-form').on('click', function(event) {
+$('.pdfform-form').on('submit', function(event) {
     event.preventDefault();
     $_messages = $(this).children('.pdfform-messages');
     $.post(window.PdfFormGlobalVariables.PdfformFillableForm.adminAjaxUrl, $(this).serialize(), function() {

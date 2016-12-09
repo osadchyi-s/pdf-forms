@@ -1,13 +1,20 @@
 tinymce.PluginManager.add( 'pdfforms_button', function( editor, url ) {
 
-    PdfFormGlobalVariables.pdfforms_button.fields = _.map(PdfFormGlobalVariables.pdfforms_button.fields, function(field){
+    PdfFormGlobalVariables.pdfforms_button.fields = _.map(PdfFormGlobalVariables.pdfforms_button.fields, function(field) {
         field.onclick = function(e) {
-            editor.insertContent(
-                '[pdfformfield type="' + field['field-type'] + '"  name="' + field['name'] + '"]'
-            );
+            var shortcode = '[pdfformfield type="' + field['field-type'] + '"  name="' + field['name'] + '" ';
+            var list = field['list'];
+            if (list.length > 0) {
+                shortcode = shortcode + ' list="' + list + '"';
+            }
+            shortcode = shortcode + ']';
+            console.log(shortcode);
+            editor.insertContent(shortcode);
         }
         return field;
     });
+
+    console.log(PdfFormGlobalVariables.pdfforms_button.fields);
 
     // Add Button to Visual Editor Toolbar
     editor.addButton('pdfforms_button', {
@@ -24,9 +31,9 @@ tinymce.PluginManager.add( 'pdfforms_button', function( editor, url ) {
         editor.windowManager.open({
             // Modal settings
             title: 'Insert form field',
-            width: jQuery( window ).width() * 0.2,
+            width: jQuery( window ).width() * 0.3,
             // minus head and foot of dialog box
-            height: (jQuery( window ).height() - 36 - 50) * 0.5,
+            height: (jQuery( window ).height() - 36 - 50) * 0.7,
             inline: 1,
             id: 'plugin-slug-insert-dialog',
             body: PdfFormGlobalVariables.pdfforms_button.fields,

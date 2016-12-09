@@ -24,7 +24,7 @@ class TextsSettingsModel
     }
 
     public static function getItemSetting($key) {
-        $settings = get_option('pdfforms-text-settings');
+        $settings = get_option('pdfforms-main-messages');
         $value = !empty($settings[$key]) ? $settings[$key] : '';
         self::setSettingItemCache($key, $value);
         return $value;

@@ -6,7 +6,7 @@
  * @author    Ignace Nyamagana Butera <nyamsprod@gmail.com>
  * @copyright 2013-2015 Ignace Nyamagana Butera
  * @license   https://github.com/thephpleague/uri/blob/master/LICENSE (MIT License)
- * @version   4.2.0
+ * @version   4.1.0
  * @link      https://github.com/thephpleague/uri/
  */
 namespace League\Uri;
@@ -166,9 +166,9 @@ class QueryParser
     protected function getEncoder($encodingType, $separator)
     {
         $separator = html_entity_decode($separator, ENT_HTML5, 'UTF-8');
-        $subdelimChars = str_replace($separator, '', "!$'()*+,;=%:@?/&");
-        $regexp = '/(?:[^'.self::$unreservedChars.preg_quote($subdelimChars, '/').']+
-            |%(?!'.self::$encodedChars.'))/x';
+        $subdelimChars = str_replace($separator, '', "!$'()*+,;=:@?/&");
+        $regexp = '/(%[A-Fa-f0-9]{2})|[^'.self::$unreservedChars.preg_quote($subdelimChars, '/').']+/u';
+
 
         if (PHP_QUERY_RFC3986 === $encodingType) {
             return function ($str) use ($regexp) {
