@@ -30,7 +30,17 @@ class PdfFormWidget extends \WP_Widget
 
         $postIdActive = ! empty( $instance['postId'] ) ? $instance['postId'] : '';
 
-        echo apply_filters('the_content', '[pdfform  id="' . $postIdActive . '"]');
+        echo Views::render(
+            'widgets/pdfform/frontend.php',
+            array(
+                'id'  => $postIdActive,
+                'title'  => $instance['title'],
+                'beforeWidget' => $args['before_widget'],
+                'afterWidget' => $args['after_widget'],
+                'beforeTitle' => $args['before_title'],
+                'afterTitle' => $args['after_title'],
+            )
+        );
     }
 
     /**
@@ -45,7 +55,7 @@ class PdfFormWidget extends \WP_Widget
 
         $title = new Input([
             'label'   => esc_html__( 'Title', 'pdfforms' ),
-            'name'    => 'title',
+            'name'    => $this->get_field_name( 'title' ),
             'value'   => $titleText,
         ]);
 
@@ -62,13 +72,13 @@ class PdfFormWidget extends \WP_Widget
 
         $forms = new Select([
             'label'     => esc_html__( 'Choose form', 'pdfforms' ),
-            'name'      => 'postId',
+            'name'      => $this->get_field_name( 'postId' ),
             'options'   => $list,
             'default'   => $postIdActive,
         ]);
 
         echo Views::render(
-            'widgets/pdfform.php',
+            'widgets/pdfform/form.php',
             array(
                 'title'  => $title->output(),
                 'forms' => $forms->output(),

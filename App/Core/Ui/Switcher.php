@@ -12,6 +12,8 @@
 
 namespace PdfFormsLoader\Core\Ui;
 
+use PdfFormsLoader\Core\Views;
+use PdfFormsLoader\Core\Assets;
 	/**
 	 * UI-switcher.
 	 */
@@ -67,8 +69,15 @@ namespace PdfFormsLoader\Core\Ui;
 		 * Add styles
 		 */
 		private function assets() {
-			$url = plugins_url( 'fox-ui-elements/assets/css/switcher.min.css', dirname( __FILE__ ) );
-			wp_enqueue_style( 'switcher-fox', $url, array(), '0.1.0', 'all' );
+		    $assets = new Assets();
+
+            wp_enqueue_style(
+                'switcher-fox',
+                $assets->getCssUrl( 'switcher.min.css', 'ui' ),
+                array(),
+                '1.0.0',
+                'all'
+            );
 		}
 
 		/**
@@ -78,6 +87,7 @@ namespace PdfFormsLoader\Core\Ui;
 		 */
 		public function output() {
 			$this->assets();
+
 			foreach ( $this->required_settings as $key => $value ) {
 				$this->settings[ $key ] = empty( $this->settings[ $key ] ) ? $value : $this->settings[ $key ] . ' ' . $value;
 			}
@@ -98,9 +108,19 @@ namespace PdfFormsLoader\Core\Ui;
 				$attributes .= ' ' . $key . '="' . $value . '"';
 			}
 
-			ob_start();
-			require('views/switcher.php');
-			return ob_get_clean();
+            $html = Views::render(
+                'ui/switcher.php',
+                array(
+                    'values'         => $values,
+                    'value_first'      => $value_first,
+                    'value_second'   => $value_second,
+                    'default'    => $default,
+                    'name'    => $name,
+                    'attributes'    => $attributes,
+                )
+            );
+
+            return $html;
 		}
 	}
 

@@ -11,22 +11,25 @@
  */
 ?>
 
-<div <?php echo $attributes ?>>
-	<input type="radio" name="<?php echo $name ?>" id="<?php echo $name ?>-<?php echo $value_first['key'] ?>" value="<?php echo $value_first['key'] ?>" 
-		<?php if ( $value_first['key'] == $default ) : ?>
+<div <?php echo $__data['attributes'] ?>>
+	<input type="radio" name="<?php echo $__data['name'] ?>"
+		   id="<?php echo $__data['name'] ?>-<?php echo  $__data['value_first']['key'] ?>"
+		   value="<?php echo $__data['value_first']['key'] ?>"
+		<?php if ( $__data['value_first']['key'] ==  $__data['default'] ) : ?>
 		checked="checked"
 		<?php endif; ?>
 	>
-	<label for="<?php echo $name ?>-<?php echo $value_second['key'] ?>"" class="on">
-		<?php echo $value_first['value'] ?>
+	<label for="<?php echo  $__data['name'] ?>-<?php echo  $__data['value_second']['key'] ?>" class="on">
+		<?php echo  $__data['value_first']['value'] ?>
 	</label>
 
-	<input type="radio" name="<?php echo $name ?>" id="<?php echo $name ?>-<?php echo $value_second['key'] ?>"" value="<?php echo $value_second['key'] ?>" 
-		<?php if ( $value_second['key'] == $default ) : ?>
+	<input type="radio" name="<?php echo  $__data['name'] ?>" id="<?php echo  $__data['name'] ?>-<?php echo  $__data['value_second']['key'] ?>"
+		   value="<?php echo  $__data['value_second']['key'] ?>"
+		<?php if (  $__data['value_second']['key'] ==  $__data['default'] ) : ?>
 		checked="checked"
 		<?php endif; ?>
 	>
-	<label for="<?php echo $name ?>-<?php echo $value_first['key'] ?>" class="off">
-		<?php echo $value_second['value'] ?>
+	<label for="<?php echo  $__data['name'] ?>-<?php echo  $__data['value_first']['key'] ?>" class="off">
+		<?php echo  $__data['value_second']['value'] ?>
 	</label>
 </div>

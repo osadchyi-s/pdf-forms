@@ -13,6 +13,7 @@ class FormsFieldsShortcode
             'list' => ''
         ), $atts );
 
+
         $type = ucfirst($this->uiMap($atts['type']));
 
         if ($type == 'Select' && !empty($atts['list'])) {
@@ -29,14 +30,16 @@ class FormsFieldsShortcode
             $atts['options'] = explode(',', $atts['options']);
         }*/
 
-        if ($type == 'Input') {
-            $atts['type'] = $this->typeInput($atts['type']);
-            if ($atts['type'] == 'checkbox' && empty($atts['value'])) {
-                $atts['value'] = 1;
-            }
+        if ($type == 'Switcher') {
+            //$atts['type'] = $this->typeInput($atts['type']);
+            //if ($atts['type'] == 'checkbox' && empty($atts['value'])) {
+                $atts['values'] = ['ON' => 'ON', 'OFF' => 'OFF'];
+                $atts['default'] = 'ON';
+            //}
         }
 
-            $ui = new $uiType($atts);
+        $ui = new $uiType($atts);
+
         return $ui->output();
     }
 
@@ -44,8 +47,7 @@ class FormsFieldsShortcode
         $map = [
             'text' => 'input',
             'dropdown' => 'select',
-            'checkbox' => 'switcher',
-            'checkmark' => 'input',
+            'checkmark' => 'switcher',
         ];
 
         return isset($map[$type]) ? $map[$type] : $type;

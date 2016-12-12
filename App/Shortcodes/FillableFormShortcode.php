@@ -31,7 +31,7 @@ class FillableFormShortcode
 
         $this->assets();
 
-        return  Views::render(
+        return Views::render(
             'shortcodes/fillableform.php',
             array(
                 'id'              => $atts['id'],
@@ -41,7 +41,6 @@ class FillableFormShortcode
             )
         );
     }
-
 
     public function fillableSave() {
         $fields = $_POST;
