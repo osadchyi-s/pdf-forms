@@ -74,7 +74,7 @@ class PdfFormWidget extends \WP_Widget
             'label'     => esc_html__( 'Choose form', 'pdfforms' ),
             'name'      => $this->get_field_name( 'postId' ),
             'options'   => $list,
-            'default'   => $postIdActive,
+            'value'   => $postIdActive,
         ]);
 
         echo Views::render(

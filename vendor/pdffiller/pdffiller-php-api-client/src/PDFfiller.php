@@ -215,7 +215,6 @@ class PDFfiller extends GenericProvider
     {
         $response = $this->sendRequest($request);
         $parsed = $this->parseResponse($response);
-        //dd($parsed);
 
         $this->statusCode = $response->getStatusCode();
         $this->checkResponse($response, $parsed);

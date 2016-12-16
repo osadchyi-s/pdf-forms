@@ -20,6 +20,7 @@ use PdfFormsLoader\Models\MainSettingsModel;
 use PdfFormsLoader\Models\PDFFillerModel;
 use PdfFormsLoader\Shortcodes\Shortcodes;
 use PdfFormsLoader\Shortcodes\FillableFormShortcode;
+use PdfFormsLoader\Core\Ui\FieldsMapper;
 
 // #TODO Потрібно ще додати кешування даних для моделів. Особливо стосується даних з АПІ.
 
@@ -73,7 +74,7 @@ class PdfFormsLoader {
             'priority' => 1,
             'field' => [
                 'type' => 'select',
-                'options' => $documents
+                'list' => $documents,
             ],
         ]);
 
@@ -85,7 +86,7 @@ class PdfFormsLoader {
             'priority' => 3,
             'field' => [
                 'type' => 'select',
-                'options' => [
+                'list' => [
                     'bottom' => 'Bottom',
                     'top' => 'Top',
                 ],
@@ -136,7 +137,7 @@ class PdfFormsLoader {
             return $template;
         }
 
-        $templateId = get_post_meta($postId, 'fillable_template_list', true);
+        $templateId = (int) get_post_meta($postId, 'fillable_template_list', true);
 
         if (!empty($templateId)) {
             $dictionary = self::$PDFFillerModel->getFillableFields($templateId);
@@ -161,27 +162,16 @@ class PdfFormsLoader {
     }
 
     private function addButtons() {
-
-        // #TODO додати кнопку зі спиком форм по пост тайпу + ще кнопку по js клієнту
-
         $template = $this->getFillableTemplateFields();
+
+        $fieldsMapper = new FieldsMapper();
 
         $fields = [];
         foreach($template as $field) {
-            $list = [];
-            if (!empty($field->list) && is_array($field->list)) {
-                foreach($field->list as $item) {
-                    $list[$item] = $item;
-                }
-            }
             $fields[] = (object) [
-                'field-type' => $field->type,
-                'type' => 'button',
-                'name' => $field->name,
+                'fieldAttr' => $fieldsMapper->prepareShortCodeAttr($field),
                 'text' => $field->name,
-                'list' => implode(',', $list),
-                'id' => $field->name,
-                'class' => 'pdfform-editor-button',
+                'type' => 'button',
             ];
         }
 

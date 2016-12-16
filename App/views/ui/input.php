@@ -9,7 +9,7 @@
 
 <?php if ( ! empty( $__data['datalist'] ) ) : ?>
 <datalist id="<?php echo $__data['datalist_id'] ?>">
-	<?php foreach ( data['datalist'] as $dataitem ) : ?>
+	<?php foreach ( $__data['datalist'] as $dataitem ) : ?>
 	<option><?php echo $dataitem ?></option>
 	<?php endforeach; ?>
 </datalist>

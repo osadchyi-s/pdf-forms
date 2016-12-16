@@ -24,7 +24,7 @@ class JsVariables
     public static function addVariableFront( $name, $value ) {
         self::$variables[$name] = $value;
         $JS = new self;
-        $JS::localize();
+        $JS->localize();
     }
 
     public function localize() {

@@ -28,8 +28,8 @@ use PdfFormsLoader\Core\Assets;
 			'id'        => 'select-fox',
 			'class'     => '',
 			'name'      => 'select-fox',
-			'options'   => array( 'true' => 'On', 'false' => 'Off' ),
-			'default'   => 'true',
+			'list'   => array(),
+			'value'   => '',
 		);
 
 		/**
@@ -91,15 +91,30 @@ use PdfFormsLoader\Core\Assets;
 				$this->settings[ $key ] = empty( $this->settings[ $key ] ) ? $value : $this->settings[ $key ] . ' ' . $value;
 			}
 
-			$options = $this->settings['options'];
-			unset( $this->settings['options'] );
+            if (is_string($this->settings['list'])) {
+                $list = explode(',', $this->settings['list']);
+                $newList = [];
+                foreach($list as $key => $item) {
+                    $newList[$item] = $item;
+                }
+                $list = $newList;
+                unset($newList);
+            }
+
+            if (is_array($this->settings['list'])) {
+                $list = $this->settings['list'];
+            }
+
+            unset( $this->settings['list'] );
+
 			$attributes = '';
-			if ( empty( $this->settings['default'] ) ) {
+			if ( empty( $this->settings['value'] ) ) {
 				$default = '';
 			} else {
-				$default = $this->settings['default'];
-				unset( $this->settings['default'] );
+				$default = $this->settings['value'];
+				unset( $this->settings['value'] );
 			}
+
 			foreach ( $this->settings as $key => $value ) {
 				$attributes .= ' ' . $key . '="' . $value . '"';
 			}
@@ -108,7 +123,7 @@ use PdfFormsLoader\Core\Assets;
                 'ui/select.php',
                 array(
                     'attributes'  => $attributes,
-                    'options' => $options,
+                    'list' => $list,
                     'default' => $default,
                 )
             );

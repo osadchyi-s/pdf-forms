@@ -12,7 +12,7 @@
 ?>
 
 <select <?php echo  $__data['attributes'] ?>>
-	<?php foreach (  $__data['options'] as $value => $title ) : ?>
+	<?php foreach (  $__data['list'] as $value => $title ) : ?>
 	<option value="<?php echo $value ?>"
 		<?php if (  $__data['default'] == $value ) : ?>
 		selected="selected"

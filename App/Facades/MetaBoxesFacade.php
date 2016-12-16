@@ -1,10 +1,6 @@
 <?php
 namespace PdfFormsLoader\Facades;
 
-/*use PdfFormsLoader\Core\Ui\Input;
-use PdfFormsLoader\Core\Ui\Select;
-use PdfFormsLoader\Core\Ui\Switcher;*/
-
 class MetaBoxesFacade
 {
     protected $slug;
@@ -44,6 +40,9 @@ class MetaBoxesFacade
     }
 
     function metaSave($postId) {
+        if (empty($_POST['post_type']) || empty($_POST[$this->slug])) {
+            return;
+        }
         if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
             return;
 
@@ -69,9 +68,6 @@ class MetaBoxesFacade
     public function render() {
         $uiType = 'PdfFormsLoader\\Core\Ui\\' . ucfirst($this->args['field']['type']);
         $this->args['field']['name'] = $this->slug;
-        //if (!empty($this->args['field']['is_default'])) {
-            $this->args['field']['default'] = $this->getCurrentValue();
-        //}
         $this->args['field']['value'] = $this->getCurrentValue();
         $ui = new $uiType($this->args['field']);
         echo $ui->output();

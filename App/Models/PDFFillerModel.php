@@ -12,7 +12,7 @@ use \GuzzleHttp\Client;
 
 class PDFFillerModel
 {
-    const EXPIRES = 1200;
+    const EXPIRES = 5; //1200;
     public static $PDFFillerProvider;
 
     public function __construct() {
@@ -20,7 +20,7 @@ class PDFFillerModel
             'clientId'       => '',
             'clientSecret'   => '',
             'urlAccessToken' => '',
-            'urlApiDomain'   => 'https://api.pdffiller.com/v1/',
+            'urlApiDomain'   => 'https://apirc2.pdffiller.com/v1/',
         ]);
         self::$PDFFillerProvider->setAccessTokenHash(MainSettingsModel::getSettingItemCache('pdffiller-api-key'));
     }
@@ -33,9 +33,9 @@ class PDFFillerModel
     }
 
     public function getFillableTemplates() {
-        $fillableTemplates = get_option('pdfform_fillable_templates', null);
+         $fillableTemplates = get_option('pdfform_fillable_templates');
 
-        if (empty($fillableTemplates['expires']) || $fillableTemplates['expires'] < time()) {
+         if (empty($fillableTemplates['expires']) || $fillableTemplates['expires'] < time()) {
             try{
                 $response = FillableTemplate::all(self::$PDFFillerProvider);
 
@@ -49,7 +49,7 @@ class PDFFillerModel
             } catch(\PDFfiller\OAuth2\Client\Provider\Core\Exception $e) {
                 return null;
             }
-        }
+         }
 
         return $fillableTemplates['items'];
     }
@@ -71,6 +71,7 @@ class PDFFillerModel
 
     public function getLinkToFillDocuments() {
         $response = FillRequest::all(self::$PDFFillerProvider, ['perpage' => 100]);
+
         $l2f = [];
         foreach($response->getList() as $id => $item) {
             $document = Document::one(self::$PDFFillerProvider, $item->document_id);
@@ -80,6 +81,7 @@ class PDFFillerModel
                 'url' => $item->url,
             ];
         }
+        //dd($l2f , 'test3333');
         update_option('pdfform_l2f_list', ['expires'=>time() + self::EXPIRES, 'items' => $l2f  ]);
         return $l2f;
 
@@ -93,13 +95,13 @@ class PDFFillerModel
                 $response = FillRequest::all(self::$PDFFillerProvider, ['perpage' => 100]);
                 $l2f = [];
                 foreach($response->getList() as $id => $item) {
+                    $document = Document::one(self::$PDFFillerProvider, $item->document_id);
                     $l2f[] = [
                         'document_id' => $item->document_id,
-                        'name' => $item->document_name,
+                        'name' => $document->name,
                         'url' => $item->url,
                     ];
                 }
-
                 update_option('pdfform_l2f_list', ['expires'=>time() + self::EXPIRES, 'items' => $l2f  ]);
                 return $this->getLinkToFillDocuments();
             } catch(\PDFfiller\OAuth2\Client\Provider\Core\Exception $e) {

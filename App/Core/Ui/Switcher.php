@@ -29,7 +29,7 @@ use PdfFormsLoader\Core\Assets;
 			'class'     => '',
 			'name'      => 'switcher-fox',
 			'values'    => array( 'true' => 'On', 'false' => 'Off' ),
-			'default'    => 'true',
+			'value'    => 'true',
 		);
 
 		/**
@@ -95,14 +95,14 @@ use PdfFormsLoader\Core\Assets;
 			$values = $this->settings['values'];
 			$value_first = each( $values );
 			$value_second = each( $values );
-			if ( empty( $this->settings['default'] ) ) {
+			if ( empty( $this->settings['value'] ) ) {
 				$default_array = each( $values );
 				$default = $default_array[ $key ];
 			} else {
-				$default = $this->settings['default'];
+				$default = $this->settings['value'];
 			}
 			$name = $this->settings['name'];
-			unset( $this->settings['values'], $this->settings['name'], $this->settings['default'] );
+			unset( $this->settings['values'], $this->settings['name'], $this->settings['value'] );
 			$attributes = '';
 			foreach ( $this->settings as $key => $value ) {
 				$attributes .= ' ' . $key . '="' . $value . '"';

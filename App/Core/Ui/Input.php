@@ -30,7 +30,7 @@ use PdfFormsLoader\Core\Assets;
 			'name'				=> 'input-fox',
 			'value'				=> '',
 			'placeholder'		=> 'enter string',
-			'datalist'			=> null,
+			'list'			=> null,
 		);
 
 		/**
@@ -92,14 +92,17 @@ use PdfFormsLoader\Core\Assets;
 				$this->settings[ $key ] = empty( $this->settings[ $key ] ) ? $value : $this->settings[ $key ] . ' ' . $value;
 			}
 
+            $label = '';
 			if ( ! empty( $this->settings['label'] ) ) {
 				$label = $this->settings['label'];
 				unset( $this->settings['label'] );
 			}
 
-			if ( ! empty( $this->settings['datalist'] ) &&  is_array( $this->settings['datalist'] ) ) {
-                $datalist = $this->settings['datalist'];
-				unset( $this->settings['datalist'] );
+            $datalist = [];
+			if ( ! empty( $this->settings['list'] ) ) {
+                $this->settings['datalist'] = $this->settings['list'];
+                $datalist = explode(',', $this->settings['list']);
+				unset( $this->settings['list'] );
 			}
 
 			$datalist_id = $this->settings['id'] . '-datalist';
@@ -107,9 +110,6 @@ use PdfFormsLoader\Core\Assets;
 			$attributes = '';
 			foreach ( $this->settings as $key => $value ) {
 				$attributes .= ' ' . $key . '="' . $value . '"';
-                if ($key == 'type' && $value == 'checkbox') {
-                    // #TODO for checkbox
-                }
 			}
 
             $html = Views::render(

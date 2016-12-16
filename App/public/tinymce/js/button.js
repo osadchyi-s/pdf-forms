@@ -2,11 +2,16 @@ tinymce.PluginManager.add( 'pdfforms_button', function( editor, url ) {
 
     PdfFormGlobalVariables.pdfforms_button.fields = _.map(PdfFormGlobalVariables.pdfforms_button.fields, function(field) {
         field.onclick = function(e) {
-            var shortcode = '[pdfformfield type="' + field['field-type'] + '"  name="' + field['name'] + '" ';
-            var list = field['list'];
+            var shortcodeAttr = '';
+            _.each(field.fieldAttr, function(value, key) {
+                shortcodeAttr = shortcodeAttr + ' ' + key + '="' + value + '"';
+            }, shortcodeAttr);
+
+            var shortcode = '[pdfformfield ' + shortcodeAttr;
+            /*var list = field['list'];
             if (list.length > 0) {
                 shortcode = shortcode + ' list="' + list + '"';
-            }
+            }*/
             shortcode = shortcode + ']';
             console.log(shortcode);
             editor.insertContent(shortcode);
