@@ -72,9 +72,12 @@ class PdfFormsLoader {
             'postType' => 'pdfforms',
             'context' => 'side',
             'priority' => 1,
-            'field' => [
-                'type' => 'select',
-                'list' => $documents,
+            'fields' => [
+                [
+                    'name' => 'fillable_template_list',
+                    'type' => 'select',
+                    'list' => $documents,
+                ],
             ],
         ]);
 
@@ -84,11 +87,14 @@ class PdfFormsLoader {
             'postType' => 'pdfforms',
             'context' => 'normal',
             'priority' => 3,
-            'field' => [
-                'type' => 'select',
-                'list' => [
-                    'bottom' => 'Bottom',
-                    'top' => 'Top',
+            'fields' => [
+                [
+                    'name' => 'pdfform_submit_location',
+                    'type' => 'select',
+                    'list' => [
+                        'bottom' => 'Bottom',
+                        'top' => 'Top',
+                    ],
                 ],
             ],
         ]);
@@ -99,8 +105,11 @@ class PdfFormsLoader {
             'postType' => 'pdfforms',
             'context' => 'normal',
             'priority' => 3,
-            'field' => [
-                'type' => 'input',
+            'fields' => [
+                [
+                    'name' => 'pdfform_submit_message',
+                    'type' => 'input',
+                ],
             ],
         ]);
 
@@ -110,8 +119,11 @@ class PdfFormsLoader {
             'postType' => 'pdfforms',
             'context' => 'normal',
             'priority' => 3,
-            'field' => [
-                'type' => 'input',
+            'fields' => [
+                [
+                    'name' => 'pdfform_message_success',
+                    'type' => 'input',
+                ],
             ],
         ]);
 
@@ -121,8 +133,11 @@ class PdfFormsLoader {
             'postType' => 'pdfforms',
             'context' => 'normal',
             'priority' => 3,
-            'field' => [
-                'type' => 'input',
+            'fields' => [
+                [
+                    'name' => 'pdfform_message_fail',
+                    'type' => 'input',
+                ],
             ],
         ]);
     }
