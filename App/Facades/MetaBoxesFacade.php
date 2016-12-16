@@ -1,6 +1,8 @@
 <?php
 namespace PdfFormsLoader\Facades;
 
+use PdfFormsLoader\Core\Views;
+
 class MetaBoxesFacade
 {
     protected $slug;
@@ -88,15 +90,20 @@ class MetaBoxesFacade
     }
 
     public function render() {
-        $view = '';
+        $fields = [];
         foreach($this->fields as $field) {
             $uiType = 'PdfFormsLoader\\Core\Ui\\' . ucfirst($field['type']);
             $field['name'] = $this->getFieldName($field['name']);
             $field['value'] = $this->getCurrentValue($field['name']);
             $ui = new $uiType($field);
-            $view.= $ui->output();
+            $fields[] = $ui->output();
         }
 
-        echo $view;
+        echo Views::render(
+            'meta-boxes/box.php',
+            [
+                'fields'  => $fields,
+            ]
+        );;
     }
 }

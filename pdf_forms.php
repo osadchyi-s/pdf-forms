@@ -82,6 +82,36 @@ class PdfFormsLoader {
         ]);
 
         MetaBoxesFacade::make([
+            'slug' => 'pdfform_send_mail',
+            'title' => 'Send document to email',
+            'postType' => 'pdfforms',
+            'context' => 'normal',
+            'priority' => 3,
+            'fields' => [
+                [
+                    'label'=> 'Send to admins emails',
+                    'name' => 'send_to_admin',
+                    'type' => 'switcher',
+                ],
+                [
+                    'label'=> 'Send to email from field',
+                    'name' => 'send_to_field_email',
+                    'type' => 'switcher',
+                ],
+                [
+                    'label'=> 'Email field',
+                    'name' => 'email_field',
+                    'type' => 'input',
+                ],
+                [
+                    'label'=> 'Send to custom emails',
+                    'name' => 'custom_emails',
+                    'type' => 'input',
+                ],
+            ],
+        ]);
+
+        MetaBoxesFacade::make([
             'slug' => 'pdfform_submit_location',
             'title' => 'Submit button location',
             'postType' => 'pdfforms',
