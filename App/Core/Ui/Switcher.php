@@ -26,6 +26,7 @@ use PdfFormsLoader\Core\Assets;
 		 */
 		private $default_settings = array(
 			'id'        => 'switcher-fox',
+            'label'     => '',
 			'class'     => '',
 			'name'      => 'switcher-fox',
 			'values'    => array( 'true' => 'On', 'false' => 'Off' ),
@@ -92,6 +93,8 @@ use PdfFormsLoader\Core\Assets;
 				$this->settings[ $key ] = empty( $this->settings[ $key ] ) ? $value : $this->settings[ $key ] . ' ' . $value;
 			}
 
+            $label = $this->settings['label'];
+
 			$values = $this->settings['values'];
 			$value_first = each( $values );
 			$value_second = each( $values );
@@ -111,12 +114,13 @@ use PdfFormsLoader\Core\Assets;
             $html = Views::render(
                 'ui/switcher.php',
                 array(
-                    'values'         => $values,
-                    'value_first'      => $value_first,
-                    'value_second'   => $value_second,
-                    'default'    => $default,
-                    'name'    => $name,
-                    'attributes'    => $attributes,
+                    'label'       => $label,
+                    'values'      => $values,
+                    'value_first' => $value_first,
+                    'value_second'=> $value_second,
+                    'default'     => $default,
+                    'name'        => $name,
+                    'attributes'  => $attributes,
                 )
             );
 
