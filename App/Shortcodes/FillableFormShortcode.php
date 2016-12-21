@@ -7,6 +7,9 @@ use PdfFormsLoader\Core\JsVariables;
 
 use PdfFormsLoader\Models\TextsSettingsModel;
 use PdfFormsLoader\Models\PDFFillerModel;
+use PdfFormsLoader\Models\PostMetaModel;
+
+use PdfFormsLoader\Services\DocumentMail;
 
 class FillableFormShortcode
 {
@@ -45,15 +48,19 @@ class FillableFormShortcode
     public function fillableSave() {
         $fields = $_POST;
         $formId = $fields['pdfform-form-id'];
-        $fillableTemplateid = get_post_meta((int) $formId, 'fillable_template_list', true);
+        $fillableTemplateId = get_post_meta((int) $formId, 'fillable_template_list_fillable_template_list', true);
+
         unset($fields['action'], $fields['pdfform-form-id']);
 
-        $pdffiller = new PDFFillerModel();
+        $postModel = new PostMetaModel($formId);
 
-        try {
-            $pdffiller->saveFillableTemplates($fillableTemplateid, $fields);
-        } catch (\Exception $e) {
-            echo $e->getMessage();
+        $emails = $postModel->getSendMailList($fields);
+
+        $documentSender = new DocumentMail();
+        $result = $documentSender->sendDocument($fillableTemplateId, $fields, $emails);
+
+        if (!$result) {
+            header('HTTP/1.0 400 Bad Request');
         }
 
         wp_die();
