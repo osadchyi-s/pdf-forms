@@ -17,12 +17,13 @@ use PdfFormsLoader\Facades\MetaBoxesFacade;
 use PdfFormsLoader\Core\Assets;
 use PdfFormsLoader\Core\JsVariables;
 use PdfFormsLoader\Models\MainSettingsModel;
+use PdfFormsLoader\Models\IntegrationsSettingsModel;
 use PdfFormsLoader\Models\PDFFillerModel;
 use PdfFormsLoader\Shortcodes\Shortcodes;
 use PdfFormsLoader\Shortcodes\FillableFormShortcode;
 use PdfFormsLoader\Core\Ui\FieldsMapper;
-
-// #TODO Потрібно ще додати кешування даних для моделів. Особливо стосується даних з АПІ.
+use PdfFormsLoader\Integrations\IntegrationsAPI;
+use PdfFormsLoader\Integrations\IntegrationFabric;
 
 class PdfFormsLoader {
 
@@ -38,11 +39,9 @@ class PdfFormsLoader {
         $this->addMetaboxes();
         $this->addShortcodes();
         $this->addWidgets();
+        $this->runIntegrations();
 
         add_action('admin_init', [$this, 'assignAsyncEvents']);
-
-
-        // #TODO Додати віджети: форми по шорткодах і по js клієнту
     }
 
     public function assignAsyncEvents() {
@@ -182,7 +181,7 @@ class PdfFormsLoader {
             return $template;
         }
 
-        $templateId = (int) get_post_meta($postId, 'fillable_template_list', true);
+        $templateId = (int) get_post_meta($postId, 'fillable_template_list_fillable_template_list', true);
 
         if (!empty($templateId)) {
             $dictionary = self::$PDFFillerModel->getFillableFields($templateId);
@@ -320,6 +319,16 @@ class PdfFormsLoader {
             ),
         );
 
+        $settings['pdfforms-main-integrations'][] = array(
+            'type'			=> 'switcher',
+            'slug'			=> 'contact-7-form',
+            'title'			=> __( 'Contact 7 form', 'pdfforms' ),
+            'field'			=> array(
+                'id'			=> 'contact-7-form',
+                'value'         => 'false',
+            ),
+        );
+
         PageBuilderFacade::makePageMenu( 'pdfforms-settings', 'Settings', 'edit.php?post_type=pdfforms' )
             ->set(
                 array(
@@ -348,6 +357,17 @@ class PdfFormsLoader {
             );
     }
 
+    protected function runIntegrations() {
+        add_filter('pdfform_integrations', [$this, 'getIntegrationsList'], 40, 4);
+    }
+
+    public function getIntegrationsList($integrations, $obj) {
+        if(IntegrationsSettingsModel::getCF7Setting() == 'true') {
+            $integrations['custom-form-7'] = IntegrationFabric::getIntegration('Contact7Form');
+        }
+        return $integrations;
+    }
+
     public function activate() {
 
         // This call needs to be made to activate this app within WP MVC
@@ -372,6 +392,11 @@ class PdfFormsLoader {
 
     }
 }
+
+$integrationsAPI = new IntegrationsAPI();
+//$integrationsAPI->initIntegrations();
+
+add_action( 'admin_init', [$integrationsAPI, 'initIntegrations'] );
 
 new PdfFormsLoader();
 
