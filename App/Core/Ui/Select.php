@@ -91,6 +91,12 @@ use PdfFormsLoader\Core\Assets;
 				$this->settings[ $key ] = empty( $this->settings[ $key ] ) ? $value : $this->settings[ $key ] . ' ' . $value;
 			}
 
+            $label = '';
+            if ( ! empty( $this->settings['label'] ) ) {
+                $label = $this->settings['label'];
+                unset( $this->settings['label'] );
+            }
+
             if (is_string($this->settings['list'])) {
                 $list = explode(',', $this->settings['list']);
                 $newList = [];
@@ -122,9 +128,10 @@ use PdfFormsLoader\Core\Assets;
             $html = Views::render(
                 'ui/select.php',
                 array(
-                    'attributes'  => $attributes,
-                    'list' => $list,
-                    'default' => $default,
+                    'attributes'    => $attributes,
+                    'label'         => $label,
+                    'list'          => $list,
+                    'default'       => $default,
                 )
             );
 

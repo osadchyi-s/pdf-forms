@@ -26,20 +26,16 @@ class PDFFillerModel
     }
 
     public function getDocumentContent($documentId) {
-        //dd($documentId);
         return Document::download(self::$PDFFillerProvider, $documentId);
     }
 
     public function insetDocumentToMedia($documentId) {
         $content = $this->getDocumentContent($documentId);
-        //dd($content);
         $document = Document::one(self::$PDFFillerProvider, $documentId);
-        //dd($document->name);
         $upload = wp_upload_bits( str_replace('.htm', '.pdf', $document->name), null, $content, null );
-        //dd($upload);
         $attach_id = 0;
         if ($upload['error'] === false) {
-            $wp_upload_dir = wp_upload_dir();
+            //$wp_upload_dir = wp_upload_dir();
 
             $attachment = array(
                 'guid'           => $upload['file'],
@@ -62,8 +58,6 @@ class PDFFillerModel
     }
 
     public function getFillableTemplates() {
-        //delete_option('pdfform_fillable_templates');
-        //dd(1);
          $fillableTemplates = get_option('pdfform_fillable_templates');
 
          if (empty($fillableTemplates['expires']) || $fillableTemplates['expires'] < time()) {

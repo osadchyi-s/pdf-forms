@@ -10,7 +10,9 @@
  * @since 0.1.0
  */
 ?>
-
+<?php if ( ! empty( $__data['label'] ) ) : ?>
+	<label><?php echo $__data['label'] ?></label>
+<?php endif; ?>
 <select <?php echo  $__data['attributes'] ?>>
 	<?php foreach (  $__data['list'] as $value => $title ) : ?>
 	<option value="<?php echo $value ?>"

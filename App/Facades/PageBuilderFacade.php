@@ -286,7 +286,7 @@ class PageBuilderFacade {
 		if ( isset( $value[ $setting['slug'] ] ) ) {
 			$setting['field']['value'] = $value[ $setting['slug'] ];
 		} else {
-			$setting['field']['value'] = '';
+			//$setting['field']['value'] =  '';
 		}
 
 		// Set the name attribute.

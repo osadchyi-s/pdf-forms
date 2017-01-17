@@ -16,17 +16,24 @@ class DocumentMail extends MailFacade
         parent::__construct([]);
     }
 
-    public function sendDocument($fillableTemplateId, $fields, $emails) {
+    public function sendDocument($fillableTemplateId, $fields, $emails, $subject = null, $message = null) {
         try {
             $pdffiller = new PDFFillerModel();
             $document = $pdffiller->saveFillableTemplates($fillableTemplateId, $fields);
 
             $mediaData = $pdffiller->insetDocumentToMedia($document['document_id']);
 
+            if (empty($emails)) {
+                return false;
+            }
+
+            $subject = !empty($subject) ? $subject : self::DEFAULT_SUBJECT;
+            $message = !empty($message) ? $message : self::DEFAULT_MESSAGE;
+
             $this->setParams([
                 'to' => $emails,
-                'subject' => self::DEFAULT_SUBJECT,
-                'message' => self::DEFAULT_MESSAGE,
+                'subject' => $subject,
+                'message' => $message,
                 'headers' => [],
                 'attachments' => [$mediaData['file']],
             ]);
