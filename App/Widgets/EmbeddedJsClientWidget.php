@@ -111,7 +111,7 @@ class EmbeddedJsClientWidget extends \WP_Widget
         $documentId = new Select([
             'label'     => esc_html__( 'Choose form', 'pdfforms' ),
             'name'    => $this->get_field_name( 'documentId' ),
-            'options'   => $l2fList,
+            'list'   => $l2fList,
             'value'   => $documentIdSelect,
         ]);
 

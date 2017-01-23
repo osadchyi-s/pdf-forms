@@ -11,24 +11,20 @@ use PDFfiller\OAuth2\Client\Provider\Core\Uploadable;
  * Class CustomLogo
  * @package PDFfiller\OAuth2\Client\Provider
  *
- * @property $id
- * @property $user_id
- * @property $created_at
- * @property $updated_at
- * @property $width
- * @property $height
- * @property $filesize
+ * @property int $id
+ * @property int $user_id
+ * @property int $width
+ * @property int $height
+ * @property int $filesize
  */
 class CustomLogo extends Model implements Uploadable
 {
-
     protected static $entityUri = 'custom_logo';
 
     public function attributes()
     {
         return [
             'id',
-            'created_at',
             'width',
             'height',
             'filesize',
@@ -36,28 +32,18 @@ class CustomLogo extends Model implements Uploadable
         ];
     }
 
-    public function save()
-    {
-        throw new Exception("Can't save logo, use Uploader.");
-    }
-
-    public function update()
-    {
-        throw new Exception("Can't update logo, delete old and upload new logo.");
-    }
-
-    public function create()
+    protected function create($options = [])
     {
         throw new Exception("Can't create logo, use Uploader.");
     }
 
-    public static function getUrlKey()
+    protected function update($options = [])
     {
-        return 'customLogoUrl';
+        throw new Exception("Can't update logo, delete old and upload new logo.");
     }
 
-    public static function getMultipartKey()
+    public function save($newRecord = true, $options = [])
     {
-        return 'customLogoMultipart';
+        throw new Exception("Can't save logo, use Uploader.");
     }
 }

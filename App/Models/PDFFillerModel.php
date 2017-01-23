@@ -3,7 +3,7 @@
 namespace PdfFormsLoader\Models;
 
 use PdfFormsLoader\Models\MainSettingsModel;
-
+use PDFfiller\OAuth2\Client\Provider\Core\GrantType;
 use PDFfiller\OAuth2\Client\Provider\PDFfiller;
 use \PDFfiller\OAuth2\Client\Provider\FillableTemplate;
 use \PDFfiller\OAuth2\Client\Provider\FillRequest;
@@ -17,19 +17,25 @@ class PDFFillerModel
 
     public function __construct() {
         self::$PDFFillerProvider = new PDFfiller( [
-            'clientId'       => '',
-            'clientSecret'   => '',
-            'urlAccessToken' => '',
+            'clientId'       => MainSettingsModel::getSettingItemCache('pdffiller-client-id'),
+            'clientSecret'   => MainSettingsModel::getSettingItemCache('pdffiller-client-secret'),
+            'urlAccessToken' => 'https://api.pdffiller.com/v1/oauth/access_token',
             'urlApiDomain'   => 'https://api.pdffiller.com/v1/',
         ]);
-        self::$PDFFillerProvider->setAccessTokenHash(MainSettingsModel::getSettingItemCache('pdffiller-api-key'));
+
+        self::$PDFFillerProvider->getAccessToken(GrantType::PASSWORD_GRANT, [
+            'username' => MainSettingsModel::getSettingItemCache('pdffiller-account-email'),
+            'password' => MainSettingsModel::getSettingItemCache('pdffiller-account-password'),
+        ]);
+
+        //self::$PDFFillerProvider->setAccessTokenHash(MainSettingsModel::getSettingItemCache('pdffiller-api-key'));
     }
 
     public function getDocumentContent($documentId) {
         return Document::download(self::$PDFFillerProvider, $documentId);
     }
 
-    public function insetDocumentToMedia($documentId) {
+    public function insertDocumentToMedia($documentId) {
         $content = $this->getDocumentContent($documentId);
         $document = Document::one(self::$PDFFillerProvider, $documentId);
         $upload = wp_upload_bits( str_replace('.htm', '.pdf', $document->name), null, $content, null );
@@ -66,8 +72,12 @@ class PDFFillerModel
 
                 $documents = [];
                 foreach($response->getList() as $item) {
-                    $document = Document::one(self::$PDFFillerProvider, $item->id);
-                    $documents[$item->id] = $document->name;
+                    try {
+                        $document = Document::one(self::$PDFFillerProvider, $item->id);
+                        $documents[$item->id] = $document->name;
+                    } catch(\PDFfiller\OAuth2\Client\Provider\Core\Exception $e) {
+
+                    }
                 }
                 update_option('pdfform_fillable_templates', ['expires'=>time() + self::EXPIRES, 'items' => $documents ]);
                 return $this->getFillableTemplates();
@@ -80,10 +90,7 @@ class PDFFillerModel
     }
 
     public function getFillableFields($templateId) {
-        //delete_option('pdfform_fillable_fields_' . $templateId);
-        //dd(1);
         $fillableFields = get_option('pdfform_fillable_fields_' . $templateId, null);
-        //dd($fillableFields);
         if (empty($fillableFields['expires']) || $fillableFields['expires'] < time()) {
             try {
                 $dictionary = FillableTemplate::dictionary(self::$PDFFillerProvider, $templateId)->toArray();
@@ -98,41 +105,28 @@ class PDFFillerModel
     }
 
     public function getLinkToFillDocuments() {
-        $response = FillRequest::all(self::$PDFFillerProvider, ['perpage' => 100]);
 
-        $l2f = [];
-        foreach($response->getList() as $id => $item) {
-            $document = Document::one(self::$PDFFillerProvider, $item->document_id);
-            $l2f[] = [
-                'document_id' => $item->document_id,
-                'name' => $document->name,
-                'url' => $item->url,
-            ];
-        }
-        //dd($l2f , 'test3333');
-        update_option('pdfform_l2f_list', ['expires'=>time() + self::EXPIRES, 'items' => $l2f  ]);
-        return $l2f;
-
-
-        //////
         $l2fList = get_option('pdfform_l2f_list', null);
-        //dd($l2fList, 'test-111');
 
         if (empty($l2fList['expires']) || $l2fList['expires'] < time()) {
-            try{
+            try {
                 $response = FillRequest::all(self::$PDFFillerProvider, ['perpage' => 100]);
                 $l2f = [];
-                foreach($response->getList() as $id => $item) {
-                    $document = Document::one(self::$PDFFillerProvider, $item->document_id);
-                    $l2f[] = [
-                        'document_id' => $item->document_id,
-                        'name' => $document->name,
-                        'url' => $item->url,
-                    ];
+                foreach ($response->getList() as $id => $item) {
+                    try {
+                        $document = Document::one(self::$PDFFillerProvider, $item->document_id);
+                        $l2f[] = [
+                            'document_id' => $item->document_id,
+                            'name' => $document->name,
+                            'url' => $item->url,
+                        ];
+                    } catch (\PDFfiller\OAuth2\Client\Provider\Core\Exception $e) {
+
+                    }
                 }
                 update_option('pdfform_l2f_list', ['expires'=>time() + self::EXPIRES, 'items' => $l2f  ]);
-                return $this->getLinkToFillDocuments();
-            } catch(\PDFfiller\OAuth2\Client\Provider\Core\Exception $e) {
+                return $l2f;
+            } catch (\PDFfiller\OAuth2\Client\Provider\Core\Exception $e) {
                 return null;
             }
         }

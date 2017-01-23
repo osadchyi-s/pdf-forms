@@ -21,7 +21,7 @@ class DocumentMail extends MailFacade
             $pdffiller = new PDFFillerModel();
             $document = $pdffiller->saveFillableTemplates($fillableTemplateId, $fields);
 
-            $mediaData = $pdffiller->insetDocumentToMedia($document['document_id']);
+            $mediaData = $pdffiller->insertDocumentToMedia($document['document_id']);
 
             if (empty($emails)) {
                 return false;

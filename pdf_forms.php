@@ -187,20 +187,10 @@ class PdfFormsLoader {
             $dictionary = self::$PDFFillerModel->getFillableFields($templateId);
             if (!empty($dictionary)) {
                 foreach($dictionary as $key => $field) {
-                    /*if ($field->type == 'checkbox') {
-                        $field->type = 'switcher';
-                    }
-
-                    if ($field->type == 'dropdown') {
-                        $field->type = 'select';
-                        $field->options = $field->list;
-                    }*/
                     $template[] = $field;
                 }
             }
         }
-
-        //dd($template);
 
         return $template;
     }
@@ -279,12 +269,50 @@ class PdfFormsLoader {
 
     private function addAdminMenu()
     {
-        $settings['pdfforms-main-settings'][] = array(
+        /*$settings['pdfforms-main-settings'][] = array(
             'type'			=> 'input',
             'slug'			=> 'pdffiller-api-key',
             'title'			=> __( 'PDFFiller Api Key', 'pdfforms' ),
             'field'			=> array(
                 'id'			=> 'pdffiller-api-key',
+                'value'			=> '',
+            ),
+        );*/
+        $settings['pdfforms-main-settings'][] = array(
+            'type'			=> 'input',
+            'slug'			=> 'pdffiller-client-id',
+            'title'			=> __( 'Client Id', 'pdfforms' ),
+            'field'			=> array(
+                'id'			=> 'pdffiller-api-key',
+                'value'			=> '',
+            ),
+        );
+        $settings['pdfforms-main-settings'][] = array(
+            'type'			=> 'input',
+            'slug'			=> 'pdffiller-client-secret',
+            'title'			=> __( 'Client Secret', 'pdfforms' ),
+            'field'			=> array(
+                'id'			=> 'pdffiller-api-key',
+                'type'          => 'password',
+                'value'			=> '',
+            )
+        );
+        $settings['pdfforms-main-settings'][] = array(
+            'type'			=> 'input',
+            'slug'			=> 'pdffiller-account-email',
+            'title'			=> __( 'Account email', 'pdfforms' ),
+            'field'			=> array(
+                'id'			=> 'pdffiller-api-key',
+                'value'			=> '',
+            ),
+        );
+        $settings['pdfforms-main-settings'][] = array(
+            'type'			=> 'input',
+            'slug'			=> 'pdffiller-account-password',
+            'title'			=> __( 'Account password', 'pdfforms' ),
+            'field'			=> array(
+                'id'			=> 'pdffiller-api-key',
+                'type'          => 'password',
                 'value'			=> '',
             ),
         );
@@ -367,34 +395,9 @@ class PdfFormsLoader {
         }
         return $integrations;
     }
-
-    public function activate() {
-
-        // This call needs to be made to activate this app within WP MVC
-
-        $this->activate_app(__FILE__);
-
-        // Perform any databases modifications related to plugin activation here, if necessary
-
-        require_once ABSPATH.'wp-admin/includes/upgrade.php';
-
-        add_option('pdf_forms_db_version', $this->db_version);
-
-    }
-
-    public function deactivate() {
-
-        // This call needs to be made to deactivate this app within WP MVC
-
-        $this->deactivate_app(__FILE__);
-
-        // Perform any databases modifications related to plugin deactivation here, if necessary
-
-    }
 }
 
 $integrationsAPI = new IntegrationsAPI();
-//$integrationsAPI->initIntegrations();
 
 add_action( 'admin_init', [$integrationsAPI, 'initIntegrations'] );
 

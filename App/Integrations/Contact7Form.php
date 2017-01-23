@@ -56,7 +56,7 @@ class Contact7Form extends RelationsChecker implements Integration
             $document = $pdffiller->saveFillableTemplates($cf7['formId'], $fields);
 
             if ($cf7['withAttach'] != '0') {
-                $attach = $pdffiller->insetDocumentToMedia($document['id']);
+                $attach = $pdffiller->insertDocumentToMedia($document['id']);
                 $submission->add_uploaded_file( self::PDF_DEFAULT_NANE, $attach['file'] );
             }
         }

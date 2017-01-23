@@ -8,6 +8,7 @@ use PDFfiller\OAuth2\Client\Provider\Exceptions\InvalidRequestException;
 use PDFfiller\OAuth2\Client\Provider\Exceptions\ResponseException;
 use PDFfiller\OAuth2\Client\Provider\PDFfiller;
 use Symfony\Component\Translation\Translator;
+use ReflectionClass;
 
 /**
  * Class Model
@@ -42,11 +43,28 @@ abstract class Model
 
     public function __construct($provider, $array = [])
     {
+        $this->initArrayFields();
         $this->client = $provider;
         $this->parseArray($array);
     }
 
-    public abstract  function attributes();
+    private function initArrayFields()
+    {
+        $reflection = new ReflectionClass(static::class);
+        $docs = ($reflection->getDocComment());
+        $docs = preg_replace("~[*/]+~", ' ', $docs);
+        preg_match_all("~@property\s+(array|mixed)\s+\\$(.*)\r?\n+~", $docs, $result);
+
+        if ($result) {
+            $fields = $result[2];
+
+            foreach ($fields as $index => $field) {
+                $this->{$field} = [];
+            }
+        }
+    }
+
+    public abstract function attributes();
 
     protected static function getUri()
     {
@@ -69,6 +87,8 @@ abstract class Model
     }
 
     /**
+     * Returns array representation of an object
+     *
      * @param array $options can hold next options: only || except
      * @return array
      */
@@ -137,12 +157,7 @@ abstract class Model
      */
     protected static function apiCall($provider, $method, $uri, $params = [])
     {
-        //$params['exceptions'] = false;
-        //$params['body'] =  $params['json'];
-        //$uri = $uri . '?default-error-page=1';
-        //dd($uri, $params);
         $params['headers']['User-Agent'] = self::USER_AGENT;
-        $params['headers']['Content-Type'] = 'application/json';
         $methodName = $method . 'ApiCall';
         if (method_exists($provider, $methodName)) {
             return $provider->{$methodName}($uri, $params);
@@ -237,9 +252,11 @@ abstract class Model
 
         $this->cacheFields($params);
         $object = $createResult;
+
         if (isset($createResult['items'])) {
             $object = $createResult['items'][0];
         }
+
         foreach($object as $name => $property) {
             $this->__set($name, $property);
         }
@@ -403,7 +420,7 @@ abstract class Model
     {
         if (in_array($name, $this->getAttributes()) && isset($this->{$name})) {
             return $this->{$name};
-        } elseif (method_exists($this, $method = 'get' . ucfirst($name))) {
+        } elseif (method_exists($this, $method = 'get' . $this->snakeToCamelCase($name))) {
             return $this->{$method}();
         }
 
@@ -414,8 +431,27 @@ abstract class Model
     {
         if (in_array($name, $this->getAttributes())) {
             $this->{$name} = $value;
-        } elseif (method_exists($this, $method = 'set' . ucfirst($name))) {
+        } elseif (method_exists($this, $method = 'set' . $this->snakeToCamelCase($name))) {
             $this->{$method}($value);
         }
+    }
+
+    /**
+     * Converts snake_cased string to camelCase
+     * @param string $string
+     * @param bool $smallFirst
+     * @return string
+     */
+    protected function snakeToCamelCase($string, $smallFirst = false)
+    {
+        $parts = explode('_', $string);
+
+        array_walk($parts, function(&$element) {
+           $element = ucfirst($element);
+        });
+
+        $result = implode('', $parts);
+
+        return $smallFirst ? lcfirst($result) : $result;
     }
 }

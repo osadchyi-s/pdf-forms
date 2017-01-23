@@ -26,6 +26,12 @@ class FillableFormShortcode
 
         $post = get_post($atts['id']);
 
+        if (empty($post)) {
+            return Views::render(
+                'shortcodes/errors/choose_page.php'
+            );
+        }
+
         $submitLocation = get_post_meta((int) $post->ID, 'pdfform_submit_location', true);
         empty($submitLocation) ? $submitLocation = 'bottom' : 'nothing';
 
