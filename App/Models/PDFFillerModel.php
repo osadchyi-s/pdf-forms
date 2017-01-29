@@ -16,6 +16,15 @@ class PDFFillerModel
     public static $PDFFillerProvider;
 
     public function __construct() {
+        $clientId = MainSettingsModel::getSettingItemCache('pdffiller-client-id');
+        $clientSecret = MainSettingsModel::getSettingItemCache('pdffiller-client-secret');
+        $clientAccountEmail = MainSettingsModel::getSettingItemCache('pdffiller-account-email');
+        $clientAccountPassword = MainSettingsModel::getSettingItemCache('pdffiller-account-password');
+
+        if (empty($clientId) || empty($clientSecret) || empty($clientAccountEmail) || empty($clientAccountPassword)) {
+            return $this;
+        }
+
         self::$PDFFillerProvider = new PDFfiller( [
             'clientId'       => MainSettingsModel::getSettingItemCache('pdffiller-client-id'),
             'clientSecret'   => MainSettingsModel::getSettingItemCache('pdffiller-client-secret'),
@@ -23,12 +32,14 @@ class PDFFillerModel
             'urlApiDomain'   => 'https://api.pdffiller.com/v1/',
         ]);
 
-        self::$PDFFillerProvider->getAccessToken(GrantType::PASSWORD_GRANT, [
-            'username' => MainSettingsModel::getSettingItemCache('pdffiller-account-email'),
-            'password' => MainSettingsModel::getSettingItemCache('pdffiller-account-password'),
-        ]);
-
-        //self::$PDFFillerProvider->setAccessTokenHash(MainSettingsModel::getSettingItemCache('pdffiller-api-key'));
+        try {
+            self::$PDFFillerProvider->getAccessToken(GrantType::PASSWORD_GRANT, [
+                'username' => MainSettingsModel::getSettingItemCache('pdffiller-account-email'),
+                'password' => MainSettingsModel::getSettingItemCache('pdffiller-account-password'),
+            ]);
+        } catch(\Exception $e) {
+            return $this;
+        }
     }
 
     public function getDocumentContent($documentId) {
