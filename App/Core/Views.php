@@ -3,13 +3,12 @@ namespace PdfFormsLoader\Core;
 
 class Views
 {
-
     private $viewPath;
 
     public function __construct()
     {
-        $this->viewPath = plugin_dir_path( dirname(__FILE__) ) . 'views\\';
-        $this->viewPath = str_replace('/', '\\',  $this->viewPath);
+        $this->viewPath = plugin_dir_path( dirname(__FILE__) ) . 'views/';
+        //$this->viewPath = str_replace('/', '\\',  $this->viewPath);
         return $this;
     }
 

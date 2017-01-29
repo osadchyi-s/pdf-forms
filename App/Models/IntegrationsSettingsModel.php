@@ -10,6 +10,6 @@ class IntegrationsSettingsModel
 
     public static function getCF7Setting() {
         $settings = self::getSettings();
-        return $settings['contact-7-form'];
+        return !empty($settings['contact-7-form']) ? $settings['contact-7-form'] : false;
     }
 }

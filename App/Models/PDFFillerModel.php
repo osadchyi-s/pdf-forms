@@ -10,6 +10,9 @@ use \PDFfiller\OAuth2\Client\Provider\FillRequest;
 use \PDFfiller\OAuth2\Client\Provider\Document;
 use \GuzzleHttp\Client;
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 class PDFFillerModel
 {
     const EXPIRES = 5; //1200;
