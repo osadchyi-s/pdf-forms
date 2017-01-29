@@ -1,11 +1,13 @@
 <?php
 /*
-Plugin Name: Pdf Forms
-Plugin URI:
-Description:
-Author:
-Version:
-Author URI:
+Plugin Name: PDF Form
+Plugin URI: https://github.com/osadchyi-s/pdf-forms
+Description: Fill and send form
+Version: 0.1.0
+Author: Osadchyi Serhii
+Author URI: https://github.com/osadchyi-s
+Text Domain: pdf-form
+Domain Path: /languages
 */
 
 require_once plugin_dir_path( __FILE__ ) . '/vendor/autoload.php' ;
