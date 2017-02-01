@@ -24,7 +24,7 @@ class DocumentMail extends MailFacade
             $mediaData = $pdffiller->insertDocumentToMedia($document['document_id']);
 
             if (empty($emails)) {
-                return false;
+                return true;
             }
 
             $subject = !empty($subject) ? $subject : self::DEFAULT_SUBJECT;

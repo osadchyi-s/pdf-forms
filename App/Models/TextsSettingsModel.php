@@ -20,7 +20,7 @@ class TextsSettingsModel
     }
 
     public static function getFailMesage() {
-        return self::getItemSetting('fail-success');
+        return self::getItemSetting('message-fail');
     }
 
     public static function getItemSetting($key) {

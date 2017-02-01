@@ -102,13 +102,13 @@ class FillableFormShortcode
             true
         );
 
-        /*
+
         wp_enqueue_style(
             'pdfforms-shortcodes-form',
             $assets->getCssUrl( 'fillable-form.css', 'shortcodes' ),
             array(),
             '1.0.0',
             'all'
-        );*/
+        );
     }
 }
