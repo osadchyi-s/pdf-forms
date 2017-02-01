@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8519bd3f05c29bba10422df78c6a60a9",
-    "content-hash": "9317a16bda3873911b2023b828fcc501",
+    "hash": "09b140f71f0f7f5664d700b86140dd2e",
+    "content-hash": "1fc44a6fc1e90fc676a95029499193bd",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -344,16 +344,16 @@
         },
         {
             "name": "pdffiller/pdffiller-php-api-client",
-            "version": "1.6",
+            "version": "1.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pdffiller/pdffiller-php-api-client.git",
-                "reference": "ab666e06d9ef5276de787e597e81c49c2a76ca8d"
+                "reference": "17a434bfed955ebd9f5ccc94ebcc99e01914be58"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pdffiller/pdffiller-php-api-client/zipball/ab666e06d9ef5276de787e597e81c49c2a76ca8d",
-                "reference": "ab666e06d9ef5276de787e597e81c49c2a76ca8d",
+                "url": "https://api.github.com/repos/pdffiller/pdffiller-php-api-client/zipball/17a434bfed955ebd9f5ccc94ebcc99e01914be58",
+                "reference": "17a434bfed955ebd9f5ccc94ebcc99e01914be58",
                 "shasum": ""
             },
             "require": {
@@ -374,7 +374,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "PHP client for pdffiller.com REST API",
-            "time": "2016-12-06 15:34:11"
+            "time": "2017-01-31 16:21:09"
         },
         {
             "name": "psr/http-message",

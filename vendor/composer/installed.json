@@ -567,17 +567,17 @@
     },
     {
         "name": "pdffiller/pdffiller-php-api-client",
-        "version": "1.6",
-        "version_normalized": "1.6.0.0",
+        "version": "1.6.1",
+        "version_normalized": "1.6.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/pdffiller/pdffiller-php-api-client.git",
-            "reference": "ab666e06d9ef5276de787e597e81c49c2a76ca8d"
+            "reference": "17a434bfed955ebd9f5ccc94ebcc99e01914be58"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/pdffiller/pdffiller-php-api-client/zipball/ab666e06d9ef5276de787e597e81c49c2a76ca8d",
-            "reference": "ab666e06d9ef5276de787e597e81c49c2a76ca8d",
+            "url": "https://api.github.com/repos/pdffiller/pdffiller-php-api-client/zipball/17a434bfed955ebd9f5ccc94ebcc99e01914be58",
+            "reference": "17a434bfed955ebd9f5ccc94ebcc99e01914be58",
             "shasum": ""
         },
         "require": {
@@ -590,7 +590,7 @@
             "nesbot/carbon": "^1.21",
             "vlucas/phpdotenv": "^2.1"
         },
-        "time": "2016-12-06 15:34:11",
+        "time": "2017-01-31 16:21:09",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
