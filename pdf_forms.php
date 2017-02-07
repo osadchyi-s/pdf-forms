@@ -287,8 +287,11 @@ class PdfFormsLoader {
     private function checkEmptySettings() {
         foreach($this->defaultSettings as $slugSection => $section) {
             $sectionValue = get_option($slugSection);
+            if (empty($sectionValue)) {
+                $sectionValue = $section;
+            }
             $change = false;
-            foreach ($sectionValue as $slugSetting => $settingValue) {
+            foreach ($section as $slugSetting => $settingValue) {
                 if (empty($sectionValue[$slugSetting])) {
                     $sectionValue[$slugSetting] = $settingValue;
                     $change = true;
