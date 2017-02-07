@@ -55,8 +55,6 @@ class PDFFillerModel
         $upload = wp_upload_bits( str_replace('.htm', '.pdf', $document->name), null, $content, null );
         $attach_id = 0;
         if ($upload['error'] === false) {
-            //$wp_upload_dir = wp_upload_dir();
-
             $attachment = array(
                 'guid'           => $upload['file'],
                 'post_mime_type' => 'pdf',

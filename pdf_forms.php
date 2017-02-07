@@ -31,6 +31,21 @@ class PdfFormsLoader {
 
     public static $PDFFillerModel;
 
+    protected $defaultSettings = [
+        'pdfforms-main-messages' => [
+            'message-success' => 'Success',
+            'message-fail' => 'Fail',
+            'submit-message' => 'Submit',
+        ],
+        'pdfforms-main-integrations' => [
+            'contact-7-form' => 'false',
+        ],
+        'pdfforms-mail' => [
+            'subject' => 'PDFForm attachment',
+            'message' => 'You can download pdf file',
+        ],
+    ];
+
     public function __construct()
     {
         self::$PDFFillerModel = new PDFFillerModel();
@@ -269,17 +284,27 @@ class PdfFormsLoader {
         PostTypesFacade::createPostType('pdfforms', 'PDFForms', 'PDFForm');
     }
 
+    private function checkEmptySettings() {
+        foreach($this->defaultSettings as $slugSection => $section) {
+            $sectionValue = get_option($slugSection);
+            $change = false;
+            foreach ($sectionValue as $slugSetting => $settingValue) {
+                if (empty($sectionValue[$slugSetting])) {
+                    $sectionValue[$slugSetting] = $settingValue;
+                    $change = true;
+                }
+            }
+            if ($change) {
+                update_option($slugSection, $sectionValue);
+            }
+        }
+    }
+
     private function addAdminMenu()
     {
-        /*$settings['pdfforms-main-settings'][] = array(
-            'type'			=> 'input',
-            'slug'			=> 'pdffiller-api-key',
-            'title'			=> __( 'PDFFiller Api Key', 'pdfforms' ),
-            'field'			=> array(
-                'id'			=> 'pdffiller-api-key',
-                'value'			=> '',
-            ),
-        );*/
+
+        $this->checkEmptySettings();
+
         $settings['pdfforms-main-settings'][] = array(
             'type'			=> 'input',
             'slug'			=> 'pdffiller-client-id',
@@ -349,15 +374,39 @@ class PdfFormsLoader {
             ),
         );
 
-        $settings['pdfforms-main-integrations'][] = array(
-            'type'			=> 'switcher',
-            'slug'			=> 'contact-7-form',
-            'title'			=> __( 'Contact 7 form', 'pdfforms' ),
+        $settings['pdfforms-mail'][] = array(
+            'type'			=> 'input',
+            'slug'			=> 'subject',
+            'title'			=> __( 'Subject text', 'pdfforms' ),
             'field'			=> array(
-                'id'			=> 'contact-7-form',
-                'value'         => 'false',
+                'id'			=> 'pdfforms-mail-subject',
+                'value'			=> 'PDFForm attachment',
             ),
         );
+
+        $settings['pdfforms-mail'][] = array(
+            'type'			=> 'input',
+            'slug'			=> 'message',
+            'title'			=> __( 'Message text', 'pdfforms' ),
+            'field'			=> array(
+                'id'			=> 'pdfforms-mail-message',
+                'value'			=> 'You can download pdf file',
+            ),
+        );
+
+        $Contact7Form = IntegrationFabric::getIntegration('Contact7Form');
+
+        if ($Contact7Form->checker()) {
+            $settings['pdfforms-main-integrations'][] = array(
+                'type'			=> 'switcher',
+                'slug'			=> 'contact-7-form',
+                'title'			=> __( 'Contact 7 form', 'pdfforms' ),
+                'field'			=> array(
+                    'id'			=> 'contact-7-form',
+                    'value'         => 'false',
+                ),
+            );
+        }
 
         PageBuilderFacade::makePageMenu( 'pdfforms-settings', 'Settings', 'edit.php?post_type=pdfforms' )
             ->set(
@@ -374,6 +423,11 @@ class PdfFormsLoader {
                         'pdfforms-main-messages' => array(
                             'slug'			=> 'pdfforms-main-messages',
                             'name'			=> __( 'Messages', 'pdfforms' ),
+                            'description'	=> '',
+                        ),
+                        'pdfforms-mail' => array(
+                            'slug'			=> 'pdfforms-mail',
+                            'name'			=> __( 'Mail', 'pdfforms' ),
                             'description'	=> '',
                         ),
                         'pdfforms-main-integrations' => array(
