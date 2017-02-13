@@ -35,7 +35,7 @@ class FillableFormShortcode
         $submitLocation = get_post_meta((int) $post->ID, 'pdfform_submit_location', true);
         empty($submitLocation) ? $submitLocation = 'bottom' : 'nothing';
 
-        $submitMessage = get_post_meta((int) $post->ID, 'pdfform_submit_message', true);
+        $submitMessage = get_post_meta((int) $post->ID, 'pdfform_submit_message_pdfform_submit_message', true);
         empty($submitMessage) ? $submitMessage = TextsSettingsModel::getSubmitMesage() : 'nothing';
 
         $this->assets();
@@ -53,6 +53,11 @@ class FillableFormShortcode
 
     public function fillableSave() {
         $fields = $_POST;
+        foreach($fields as $key => $value) {
+            if ($value === 'true'){
+                $fields[$key] = '1';
+            }
+        }
         $formId = $fields['pdfform-form-id'];
         $fillableTemplateId = get_post_meta((int) $formId, 'fillable_template_list_fillable_template_list', true);
 
