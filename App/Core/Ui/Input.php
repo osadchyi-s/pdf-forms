@@ -18,6 +18,9 @@ use PdfFormsLoader\Core\Assets;
 	 * UI-input.
 	 */
 	class Input {
+
+		const DATE = 'PdffillerDate';
+
 		/**
 		 * Default settings
 		 *
@@ -110,6 +113,10 @@ use PdfFormsLoader\Core\Assets;
 			if(isset($this->settings['type']) && $this->settings['type'] == 'number') {
 				$this->settings['type'] = 'text';
 				$this->settings['pattern'] = '[/#/$/%/(/)/+/=/-/.///%/:/,0-9]+';
+			}
+
+			if(isset($this->settings['type']) && $this->settings['type'] == 'date') {
+				$this->settings['name'] = self::DATE . $this->settings['name'];
 			}
 
 			$attributes = '';

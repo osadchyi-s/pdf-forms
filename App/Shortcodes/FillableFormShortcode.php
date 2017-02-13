@@ -11,6 +11,8 @@ use PdfFormsLoader\Models\PostMetaModel;
 
 use PdfFormsLoader\Services\DocumentMail;
 
+use PdfFormsLoader\Core\Ui\Input;
+
 class FillableFormShortcode
 {
     public $slug = 'pdfform';
@@ -54,10 +56,27 @@ class FillableFormShortcode
     public function fillableSave() {
         $fields = $_POST;
         foreach($fields as $key => $value) {
+
             if ($value === 'true'){
                 $fields[$key] = '1';
             }
+
+            if( substr($key, 0, strlen(Input::DATE)) == Input::DATE) {
+                unset( $fields[$key] );
+                $key = substr($key, strlen(Input::DATE));
+
+                if ( is_numeric(substr($value, 0, 4))){
+                    $day = substr($value, -2);
+                    $month = substr($value, 5, 2);
+                    $year = substr($value, 0, 4);
+
+                    $value = $month . '-' . $day . '-' . $year;
+                }
+                $fields[$key] = $value;
+            }
         }
+
+
         $formId = $fields['pdfform-form-id'];
         $fillableTemplateId = get_post_meta((int) $formId, 'fillable_template_list_fillable_template_list', true);
 
