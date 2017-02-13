@@ -107,6 +107,11 @@ use PdfFormsLoader\Core\Assets;
 
 			$datalist_id = $this->settings['id'] . '-datalist';
 
+			if(isset($this->settings['type']) && $this->settings['type'] == 'number') {
+				$this->settings['type'] = 'text';
+				$this->settings['pattern'] = '[/#/$/%/(/)/+/=/-/.///%/:/,0-9]+';
+			}
+
 			$attributes = '';
 			foreach ( $this->settings as $key => $value ) {
 				$attributes .= ' ' . $key . '="' . $value . '"';
