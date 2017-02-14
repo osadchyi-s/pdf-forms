@@ -3,6 +3,7 @@
     $('.pdfform-form').on('submit', function(event) {
         event.preventDefault();
         $_messages = $(this).children('.pdfform-messages');
+        $_messages.append( "Loading..." );
         $.post(window.PdfFormGlobalVariables.PdfformFillableForm.adminAjaxUrl, $(this).serialize(), function(response, status) {
             if (!window.PdfFormGlobalVariables.PdfformFillableForm.messageSuccess) {
                 window.PdfFormGlobalVariables.PdfformFillableForm.messageSuccess = 'Success';
