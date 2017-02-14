@@ -19,8 +19,6 @@ use PdfFormsLoader\Core\Assets;
 	 */
 	class Input {
 
-		const DATE = 'PdffillerDate';
-
 		/**
 		 * Default settings
 		 *
@@ -75,13 +73,34 @@ use PdfFormsLoader\Core\Assets;
 		private function assets() {
             $assets = new Assets();
 
-            wp_enqueue_style(
-                'input-fox',
-                $assets->getCssUrl( 'input.min.css', 'ui' ),
-                array(),
-                '1.0.0',
-                'all'
-            );
+			wp_enqueue_style(
+				'jquery-ui',
+				$assets->getCssUrl( 'jquery-ui.min.css', 'ui' ),
+				array(),
+				'1.0.0',
+				'all'
+			);
+			wp_enqueue_style(
+				'input-fox',
+				$assets->getCssUrl( 'input.min.css', 'ui' ),
+				array(),
+				'1.0.0',
+				'all'
+			);
+			wp_enqueue_script(
+				'jquery-ui',
+				$assets->getJsUrl( 'jquery-ui.js', 'ui'),
+				array( 'jquery' ),
+				'1.0.0',
+				true
+			);
+			wp_enqueue_script(
+				'input-fox',
+				$assets->getJsUrl( 'datePicker.js', 'ui'),
+				array( 'jquery' ),
+				'1.0.0',
+				true
+			);
 		}
 
 		/**
@@ -115,15 +134,11 @@ use PdfFormsLoader\Core\Assets;
 				$this->settings['pattern'] = '[/#/$/%/(/)/+/=/-/.///%/:/,0-9]+';
 			}
 
-			if(isset($this->settings['type']) && $this->settings['type'] == 'date') {
-				$this->settings['name'] = self::DATE . $this->settings['name'];
-			}
-
 			$attributes = '';
 			foreach ( $this->settings as $key => $value ) {
 				$attributes .= ' ' . $key . '="' . $value . '"';
 			}
-
+			
             $html = Views::render(
                 'ui/input.php',
                 array(
