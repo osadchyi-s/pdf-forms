@@ -99,7 +99,7 @@ class PDFFillerModel
 
          if (empty($fillableTemplates['expires']) || $fillableTemplates['expires'] < time()) {
             try{
-                $response = FillableTemplate::all(self::$PDFFillerProvider);
+                $response = FillableTemplate::all(self::$PDFFillerProvider, ['perpage' => 100]);
 
                 $documents = [];
                 foreach($response->getList() as $item) {
