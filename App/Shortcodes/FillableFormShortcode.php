@@ -54,10 +54,14 @@ class FillableFormShortcode
     public function fillableSave() {
         $fields = $_POST;
         foreach($fields as $key => $value) {
+
             if ($value === 'true'){
                 $fields[$key] = '1';
             }
+
         }
+
+
         $formId = $fields['pdfform-form-id'];
         $fillableTemplateId = get_post_meta((int) $formId, 'fillable_template_list_fillable_template_list', true);
 
