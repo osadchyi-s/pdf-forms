@@ -90,8 +90,8 @@ class PDFFillerModel
         $document->name = $name;
 
         $res = $document->save(false);
-        echo 'result: <br>';
-        print_r($res);
+
+        return $res;
     }
 
     public function getFillableTemplates() {
