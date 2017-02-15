@@ -72,7 +72,26 @@ class PDFFillerModel
         $fillableTemplate = new FillableTemplate(self::$PDFFillerProvider);
         $fillableTemplate->document_id = $fillableTemplateid;
         $fillableTemplate->fillable_fields = $fields;
-        return $fillableTemplate->save();
+        
+        $newDoc = $fillableTemplate->save();
+        $this->renameDocument($newDoc['document_id']);
+
+        return $newDoc;
+    }
+
+    public function renameDocument($documentId) {
+
+        $document = Document::one(self::$PDFFillerProvider,$documentId);
+
+        $arr = (explode('.', $document->name));
+        array_pop($arr);
+        $name = implode('.', $arr).'_'.date('Y-m-d-H-i');
+
+        $document->name = $name;
+
+        $res = $document->save(false);
+        echo 'result: <br>';
+        print_r($res);
     }
 
     public function getFillableTemplates() {
