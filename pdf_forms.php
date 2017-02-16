@@ -48,12 +48,27 @@ class PdfFormsLoader {
 
     public function __construct()
     {
+        $addMetaboxes = false;
+        if ( isset($_GET['post']) && get_post( strip_tags($_GET['post']) )->post_type === 'pdfforms') {
+            $addMetaboxes = true;
+        }
+        if ( isset($_GET['post_type']) && strip_tags($_GET['post_type']) === "pdfforms" && $_SERVER['DOCUMENT_URI'] == '/wp-admin/post-new.php') {
+            $addMetaboxes = true;
+        }
+        if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+            $addMetaboxes = false;
+        }
+
         self::$PDFFillerModel = new PDFFillerModel();
 
         $this->addPostTypes();
         $this->addAdminMenu();
         $this->addButtons();
-        $this->addMetaboxes();
+
+        if($addMetaboxes) {
+            $this->addMetaboxes();
+        }
+
         $this->addShortcodes();
         $this->addWidgets();
         $this->runIntegrations();
