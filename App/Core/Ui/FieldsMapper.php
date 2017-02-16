@@ -30,10 +30,11 @@ class FieldsMapper
                 $list[$item] = $item;
             }
         }
-        
+
+        $format = Null;
         if (isset($fillableField['format']) and $fillableField['type'] == 'date') {
             $fillableField['format'] = mb_strtolower($fillableField['format']);
-            $fillableField['format'] = str_replace('yyyy', 'yy', $fillableField['format'] );
+            $format = str_replace('yyyy', 'yy', $fillableField['format'] );
             $fillableField['type'] = 'text';
         }
         
@@ -41,7 +42,7 @@ class FieldsMapper
             'ui' => $this->uiMap($fillableField['type']),
             'type' => $fillableField['type'],
             'name' => $fillableField['name'],
-            'date_format' => $fillableField['format'],
+            'date_format' => $format,
             'list' => implode(',', $list),
             'required' => $fillableField['required'],
             'placeholder' => array_get($fillableField, 'initial', null),
