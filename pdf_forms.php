@@ -1,11 +1,11 @@
 <?php
 /*
-Plugin Name: PDF Form
-Plugin URI: https://github.com/osadchyi-s/pdf-forms
+Plugin Name: PDF Forms
+Plugin URI: https://github.com/pdffiller/wp-integration-pdf-forms
 Description: Fill and send form
 Version: 0.1.0
-Author: Osadchyi Serhii
-Author URI: https://github.com/osadchyi-s
+Author: PDFFiller API team
+Author URI: https://github.com/pdffiller
 Text Domain: pdf-form
 Domain Path: /languages
 */
@@ -247,7 +247,8 @@ class PdfFormsLoader {
         }
 
         JsVariables::addVariable('pdfforms_button', [
-            'image' => Assets::getImageUrlStatic('form.png', 'tinymce'),
+            'image_form' => Assets::getImageUrlStatic('form2.png', 'tinymce'),
+            'image_field' => Assets::getImageUrlStatic('field.png', 'tinymce'),
             'fields' => $fields
         ]);
 

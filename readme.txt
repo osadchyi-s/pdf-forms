@@ -1,4 +1,4 @@
-=== pdf-form ===
+=== PDF Form ===
 Contributors: pdffillerintegrations
 Donate link: http://pdffiller.com
 Tags: pdf,document,form,email,pdffiller
@@ -34,28 +34,28 @@ List of features:
 =Admin=
 
 1. Settings
-`/screenshots/screen-1.jpg`
-`/screenshots/screen-2.jpg`
-`/screenshots/screen-3.jpg`
-`/screenshots/screen-4.jpg`
+`/assets/screen-1.jpg`
+`/assets/screen-2.jpg`
+`/assets/screen-3.jpg`
+`/assets/screen-4.jpg`
 2. Post type pdfform
-`/screenshots/screen-5.jpg`
-`/screenshots/screen-6.jpg`
-`/screenshots/screen-7.jpg`
+`/assets/screen-5.jpg`
+`/assets/screen-6.jpg`
+`/assets/screen-7.jpg`
 3. Shortcodes
-`/screenshots/screen-8.jpg`
-`/screenshots/screen-9.jpg`
-`/screenshots/screen-10.jpg`
-`/screenshots/screen-11.jpg`
+`/assets/screen-8.jpg`
+`/assets/screen-9.jpg`
+`/assets/screen-10.jpg`
+`/assets/screen-11.jpg`
 4. Widgets
-`/screenshots/screen-12.jpg`
-`/screenshots/screen-13.jpg`
+`/assets/screen-12.jpg`
+`/assets/screen-13.jpg`
 5. Contact Form 7 plugin integration
-`/screenshots/screen-14.jpg`
+`/assets/screen-14.jpg`
 
 =FrontEnd=
-`/screenshots/screen-15.jpg`
-`/screenshots/screen-16.jpg`
+`/assets/screen-15.jpg`
+`/assets/screen-16.jpg`
 
 == Changelog ==
 

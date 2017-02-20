@@ -28,7 +28,7 @@ tinymce.PluginManager.add( 'pdfforms_button', function( editor, url ) {
         type: "button",
         tooltip: "add form field",
         //icon: "dashicon dashicons-no",
-        image: window.PdfFormGlobalVariables.pdfforms_button.image
+        image: window.PdfFormGlobalVariables.pdfforms_button.image_field
     });
 
     editor.addCommand( 'pdfform_insert_field', function() {
@@ -73,7 +73,7 @@ tinymce.PluginManager.add( 'pdfforms_list_button', function( editor, url ) {
         type: "button",
         tooltip: "add fillable form",
         //icon: "dashicon dashicons-no",
-        image: window.PdfFormGlobalVariables.pdfforms_button.image
+        image: window.PdfFormGlobalVariables.pdfforms_button.image_form
     });
 
     editor.addCommand( 'pdfform_insert_form', function() {
