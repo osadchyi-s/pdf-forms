@@ -4,11 +4,11 @@ Donate link: http://pdffiller.com
 Tags: pdf,document,form,email,pdffiller
 Requires at least: 4.3
 Tested up to: 4.7
-Stable tag: 0.1
+Stable tag: 0.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-This plugin is instrument for fill form, save form as pdf and send pdf as attachments for email. All fillable form synch with PDFFiller account.
+This plugin is instrument for fill form, save form as pdf and send pdf as attachments for email. All fillable form synchronize with PDFFiller account.
 
 == Description ==
 
