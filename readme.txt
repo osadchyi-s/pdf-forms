@@ -1,4 +1,4 @@
-=== PDF Form ===
+=== PDF Forms ===
 Contributors: pdffillerintegrations
 Donate link: http://pdffiller.com
 Tags: pdf,document,form,email,pdffiller
