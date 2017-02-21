@@ -64,18 +64,31 @@ composer.lock
 echo "Changing directory to SVN and committing to trunk"
 cd $SVNPATH/trunk/
 # Add all new files that are not set to be ignored
-echo $(svn status | grep -v "^.[ \t]*\..*" | grep "^?" | awk '{print $2}' | xargs svn add)
-exit 1;
+svn status | grep -v "^.[ \t]*\..*" | grep "^?" | awk '{print $2}' | xargs svn add
 svn commit --username=$SVNUSER --password=$SVNPASSWORD -m "$COMMITMSG"
 
 # echo "Creating new SVN tag & committing it"
 cd $SVNPATH
+
+svn remove assets;
+svn copy trunk/screenshots/ assets
+echo "copied trunk screenshots to assets";
+#cd $SVNPATH/tags/$NEWVERSION1
+svn commit --username=$SVNUSER --password=$SVNPASSWORD -m "Replace screenshots"
+
+# check if the new version is unique
+if [ -d tags/$NEWVERSION1 ]
+then
+    echo "This tag is already exist";
+    exit 1;
+fi;
+
 svn copy trunk/ tags/$NEWVERSION1
-svn copy trunk/screenshots assets
-cd $SVNPATH/tags/$NEWVERSION1
-svn commit --username=$SVNUSER -m "Tag $NEWVERSION1"
+echo "copied trunk to tag dir";
+#cd $SVNPATH/tags/$NEWVERSION1
+svn commit --username=$SVNUSER --password=$SVNPASSWORD -m "Tag $NEWVERSION1"
 
 echo "Removing temporary directory $SVNPATH"
-#rm -fr $SVNPATH/
+rm -fr $SVNPATH/
 
 echo "*** FIN ***"
