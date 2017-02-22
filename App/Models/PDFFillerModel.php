@@ -54,9 +54,10 @@ class PDFFillerModel
         $document = Document::one(self::$PDFFillerProvider, $documentId);
         $upload = wp_upload_bits( str_replace('.htm', '.pdf', $document->name), null, $content, null );
         $attach_id = 0;
+        $wp_upload_dir = wp_upload_dir();
         if ($upload['error'] === false) {
             $attachment = array(
-                'guid'           => $upload['file'],
+                'guid'           => $wp_upload_dir['url'] . '/' . basename( $upload['file'] ),
                 'post_mime_type' => 'pdf',
                 'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $upload['file'] ) ),
                 'post_content'   => '',
@@ -72,7 +73,7 @@ class PDFFillerModel
         $fillableTemplate = new FillableTemplate(self::$PDFFillerProvider);
         $fillableTemplate->document_id = $fillableTemplateid;
         $fillableTemplate->fillable_fields = $fields;
-        
+
         $newDoc = $fillableTemplate->save();
         $this->renameDocument($newDoc['document_id']);
 
@@ -95,9 +96,9 @@ class PDFFillerModel
     }
 
     public function getFillableTemplates() {
-         $fillableTemplates = get_option('pdfform_fillable_templates');
+        $fillableTemplates = get_option('pdfform_fillable_templates');
 
-         if (empty($fillableTemplates['expires']) || $fillableTemplates['expires'] < time()) {
+        if (empty($fillableTemplates['expires']) || $fillableTemplates['expires'] < time()) {
             try{
                 $response = FillableTemplate::all(self::$PDFFillerProvider, ['perpage' => 100]);
 
@@ -115,7 +116,7 @@ class PDFFillerModel
             } catch(\PDFfiller\OAuth2\Client\Provider\Core\Exception $e) {
                 return null;
             }
-         }
+        }
 
         return $fillableTemplates['items'];
     }

@@ -1,27 +1,30 @@
-=== PDF Forms ===
+=== PDF Form Filler ===
 Contributors: pdffillerintegrations
 Donate link: http://pdffiller.com
-Tags: pdf,document,form,email,pdffiller
+Tags: pdf,document,form,email,pdffiller,widget,plugin
 Requires at least: 4.3
 Tested up to: 4.7
-Stable tag: 0.1.3
+Stable tag: 0.1.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-This plugin is instrument for fill form, save form as pdf and send pdf as attachments for email. All fillable form synchronize with PDFFiller account.
+Create HTML form of fillable PDF templates and embed it on your website.
 
 == Description ==
 
-You can synchronize your pdffiller acount (via API) with your web-site. Than create html-form and fill fields.
+Synchronize your PDFfiller account with your web-site via API to create fillable HTML documents and add new smart fields for filling.
 
-List of features:
+Now you can embed fillable forms from your PDFfiller account on your site right in WordPress. With PDF Form Filler plugin you can customize the smart fillable fields of your form, send the submitted form as PDF attachment to the designated email address(es), customize the Submit button title and information messages, select the position of the Submit button, etc.
 
-*   Make html submit form from fillable template.
-*   Save filled forms in PDFFiller account
-*   Send filled form to emails as attachment
-*   Integration with populary plugin Contact Form 7
-*   Put your form in content and widget area (sidebar)
-*   Put link to fill popup window to widget area (sidebar)
+Key features:
+
+* Create HTML form of fillable template
+* Save submitted forms in your PDFFiller account
+* Send completed form to the specified emails as PDF attachment
+* Integration with popular plugin Contact Form 7
+* Place the fillable form in content and widget area (sidebar)
+* Insert a link that opens a fillable form to widget area (sidebar)
+
 
 == Installation ==
 
@@ -50,11 +53,16 @@ List of features:
 
 == Changelog ==
 
+= 0.1.4 =
+Changed message logic.
+Changed cf7 integration.
+And some small fix
+
 = 0.1.3 =
 Fix fields list
 
 = 0.1.2 =
-Change screenshots
+Change screenshotss
 
 = 0.1.1 =
 Small fix
