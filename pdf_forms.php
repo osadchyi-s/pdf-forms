@@ -3,7 +3,7 @@
 Plugin Name: PDF Forms
 Plugin URI: https://github.com/pdffiller/wp-integration-pdf-forms
 Description: Fill and send form
-Version: 0.1.1
+Version: 0.1.2
 Author: PDFFiller API team
 Author URI: https://github.com/pdffiller
 Text Domain: pdf-form
