@@ -24,8 +24,6 @@ class FormsFieldsShortcode
 
         $ui = $this->fieldsMapper->getUIByAttr($atts);
 
-        //dd($ui);
-
         return $ui->output();
     }
 

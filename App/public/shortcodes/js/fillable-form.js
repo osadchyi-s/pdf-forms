@@ -8,17 +8,11 @@
         });
         $('.pdfform-form input[type="submit"]').attr('disabled', 'disabled');
         $.post(window.PdfFormGlobalVariables.PdfformFillableForm.adminAjaxUrl, $(this).serialize(), function(response, status) {
-            if (!window.PdfFormGlobalVariables.PdfformFillableForm.messageSuccess) {
-                window.PdfFormGlobalVariables.PdfformFillableForm.messageSuccess = 'Success';
-                $('.pdfform-form input[type="submit"]').removeAttr('disabled');
-                $('.pdfform-form')[0].reset();
-            }
+            $('.pdfform-form input[type="submit"]').removeAttr('disabled');
+            $('.pdfform-form')[0].reset();
             $_messages.html(window.PdfFormGlobalVariables.PdfformFillableForm.messageSuccess).show('slow').delay(8000).fadeOut();
         }).fail( function(response, status) {
-            if (!window.PdfFormGlobalVariables.PdfformFillableForm.messageFail) {
-                window.PdfFormGlobalVariables.PdfformFillableForm.messageFail = 'Fail';
-                $('.pdfform-form input[type="submit"]').removeAttr('disabled');
-            }
+            $('.pdfform-form input[type="submit"]').removeAttr('disabled');
             $_messages.html(window.PdfFormGlobalVariables.PdfformFillableForm.messageFail).show('slow').delay(8000).fadeOut();
         });
     });

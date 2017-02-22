@@ -4,7 +4,7 @@ Donate link: http://pdffiller.com
 Tags: pdf,document,form,email,pdffiller
 Requires at least: 4.3
 Tested up to: 4.7
-Stable tag: 0.1.2
+Stable tag: 0.1.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,24 +31,27 @@ List of features:
 
 == Screenshots ==
 
-1. Main settings `/assets/screenshot-1.jpg`
-2. Messages settings `/assets/screenshot-2.jpg`
-3. Mail settings `/assets/screenshot-3.jpg`
-4. Integrations settings `/assets/screenshot-4.jpg`
-5. PDF forms list `/assets/screenshot-5.jpg`
-6. Item form `/assets/screenshot-6.jpg`
-7. Item form (setting section) `/assets/screenshot-7.jpg`
-8. Insert field `/assets/screenshot-8.jpg`
-9. Insert field (result) `/assets/screenshot.-9.jpg`
-10. Insert form `/assets/screenshot-10.jpg`
-11. Insert form (result) `/assets/screenshot-11.jpg`
-12. Link To Fill widget `/assets/screenshot-12.jpg`
-13. PDF form widget `/assets/screenshot-13.jpg`
-14. Integration with Contact form 7 `/assets/screenshot-14.jpg`
-15. PDF Form in content (frontend) `/assets/screenshot-15.jpg`
-16. Widgets in sidebar `/assets/screenshot-16.jpg`
+1. Main settings
+2. Messages settings
+3. Mail settings
+4. Integrations settings
+5. PDF forms list
+6. Item form
+7. Item form (setting section)
+8. Insert field
+9. Insert field (result)
+10. Insert form
+11. Insert form (result)
+12. Link To Fill widget
+13. PDF form widget
+14. Integration with Contact form 7
+15. PDF Form in content (frontend)
+16. Widgets in sidebar
 
 == Changelog ==
+
+= 0.1.3 =
+Fix fields list
 
 = 0.1.2 =
 Change screenshots

@@ -28,7 +28,6 @@ class JsVariables
     }
 
     public function localize() {
-        //dd(self::$variables['pdfforms_list_button']['documents']);
         wp_register_script( self::PdfFormGlobalVariables, Assets::getJsUrlStatic('localize.js'), false );
         wp_localize_script( self::PdfFormGlobalVariables, self::PdfFormGlobalVariables, self::$variables );
         wp_enqueue_script( self::PdfFormGlobalVariables );

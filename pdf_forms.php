@@ -3,7 +3,7 @@
 Plugin Name: PDF Forms
 Plugin URI: https://github.com/pdffiller/wp-integration-pdf-forms
 Description: Fill and send form
-Version: 0.1.2
+Version: 0.1.3
 Author: PDFFiller API team
 Author URI: https://github.com/pdffiller
 Text Domain: pdf-form
@@ -60,8 +60,8 @@ class PdfFormsLoader {
         if ( isset($_GET['post_type']) && strip_tags($_GET['post_type']) === "pdfforms" && $phpSelf == '/wp-admin/post-new.php') {
             $addMetaboxes = true;
         }
-        if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-            $addMetaboxes = false;
+        if (!empty($_POST['post_type']) && strip_tags($_POST['post_type']) === "pdfforms"){
+            $addMetaboxes = true;
         }
 
         self::$PDFFillerModel = new PDFFillerModel();
