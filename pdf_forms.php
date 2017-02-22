@@ -479,7 +479,7 @@ class PdfFormsLoader {
 
 $integrationsAPI = new IntegrationsAPI();
 
-add_action( 'admin_init', [$integrationsAPI, 'initIntegrations'] );
+add_action( 'after_setup_theme', [$integrationsAPI, 'initIntegrations'] );
 
 new PdfFormsLoader();
 

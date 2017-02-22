@@ -25,11 +25,11 @@ class Contact7Form extends RelationsChecker implements Integration
     }
 
     protected function addHooks() {
-        add_filter( 'wpcf7_editor_panels', [$this, 'addMetaBox'] );
-        add_action( 'wpcf7_before_send_mail', [$this, 'saveFillable'] );
-        add_action( 'wpcf7_after_save', [$this, 'saveOption'] );
-        add_action( 'wpcf7_before_send_mail', [$this, 'saveFillable'] );
-        add_filter( 'wpcf7_form_class_attr', [$this, 'classAttr'] );
+        add_filter( 'wpcf7_editor_panels', [&$this, 'addMetaBox'] );
+        add_action( 'wpcf7_before_send_mail', [&$this, 'saveFillable'] );
+        add_action( 'wpcf7_after_save', [&$this, 'saveOption'] );
+        add_filter( 'wpcf7_form_class_attr', [&$this, 'classAttr'] );
+        //add_filter('wpcf7_mail_components', [&$this, 'addAttach'], 10, 2);
     }
 
     public function classAttr( $class ) {
@@ -43,9 +43,31 @@ class Contact7Form extends RelationsChecker implements Integration
         }
     }
 
+    /*public function addAttach($components, $contactForm) {
+        $pdffiller = new PDFFillerModel();
+        $cf7 = $this->getOptions($contactForm->id());
+
+        $submission = \WPCF7_Submission::get_instance();
+
+        $fields = $submission->get_posted_data();
+
+        if ($cf7['enable'] != '0' && !empty($fields)) {
+            $document = $pdffiller->saveFillableTemplates($cf7['formId'], $fields);
+
+            if ($cf7['withAttach'] != '0') {
+                $attach = $pdffiller->insertDocumentToMedia($document['id']);
+                //$submission->add_uploaded_file( self::PDF_DEFAULT_NANE, $attach['file'] );
+                $components['attachments'] = array_merge($components['attachments'], [
+                    self::PDF_DEFAULT_NANE => $attach['file']
+                ]);
+            }
+        }
+
+        return $components;
+    }*/
+
     public function saveFillable($contactForm) {
         $pdffiller = new PDFFillerModel();
-
         $cf7 = $this->getOptions($contactForm->id());
 
         $submission = \WPCF7_Submission::get_instance();

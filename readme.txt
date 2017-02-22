@@ -54,14 +54,15 @@ Key features:
 == Changelog ==
 
 = 0.1.4 =
-
+Changed message logic.
+Changed cf7 integration.
 And some small fix
 
 = 0.1.3 =
 Fix fields list
 
 = 0.1.2 =
-Change screenshots
+Change screenshotss
 
 = 0.1.1 =
 Small fix
