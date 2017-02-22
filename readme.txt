@@ -31,33 +31,30 @@ List of features:
 
 == Screenshots ==
 
-=Admin=
-
-1. Settings
-`/assets/screen-1.jpg`
-`/assets/screen-2.jpg`
-`/assets/screen-3.jpg`
-`/assets/screen-4.jpg`
-2. Post type pdfform
-`/assets/screen-5.jpg`
-`/assets/screen-6.jpg`
-`/assets/screen-7.jpg`
-3. Shortcodes
-`/assets/screen-8.jpg`
-`/assets/screen-9.jpg`
-`/assets/screen-10.jpg`
-`/assets/screen-11.jpg`
-4. Widgets
-`/assets/screen-12.jpg`
-`/assets/screen-13.jpg`
-5. Contact Form 7 plugin integration
-`/assets/screen-14.jpg`
-
-=FrontEnd=
-`/assets/screen-15.jpg`
-`/assets/screen-16.jpg`
+1. Main settings `/assets/screenshot-1.jpg`
+2. Messages settings `/assets/screenshot-2.jpg`
+3. Mail settings `/assets/screenshot-3.jpg`
+4. Integrations settings `/assets/screenshot-4.jpg`
+5. PDF forms list `/assets/screenshot-5.jpg`
+6. Item form `/assets/screenshot-6.jpg`
+7. Item form (setting section) `/assets/screenshot-7.jpg`
+8. Insert field `/assets/screenshot-8.jpg`
+9. Insert field (result) `/assets/screenshot.-9.jpg`
+10. Insert form `/assets/screenshot-10.jpg`
+11. Insert form (result) `/assets/screenshot-11.jpg`
+12. Link To Fill widget `/assets/screenshot-12.jpg`
+13. PDF form widget `/assets/screenshot-13.jpg`
+14. Integration with Contact form 7 `/assets/screenshot-14.jpg`
+15. PDF Form in content (frontend) `/assets/screenshot-15.jpg`
+16. Widgets in sidebar `/assets/screenshot-16.jpg`
 
 == Changelog ==
+
+= 0.1.2 =
+Change screenshots
+
+= 0.1.1 =
+Small fix
 
 = 0.1 =
 First version
