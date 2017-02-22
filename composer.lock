@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "09b140f71f0f7f5664d700b86140dd2e",
-    "content-hash": "1fc44a6fc1e90fc676a95029499193bd",
+    "hash": "f0bcbd05ae093d9d55d7eac69e5f8a86",
+    "content-hash": "9907c41c555fa29a0d681244fb577a3e",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -122,16 +122,16 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "1.3.1",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "5c6447c9df362e8f8093bda8f5d8873fe5c7f65b"
+                "reference": "04a6d1a00ea5da0727ee94309a9f0d3dbaecb569"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/5c6447c9df362e8f8093bda8f5d8873fe5c7f65b",
-                "reference": "5c6447c9df362e8f8093bda8f5d8873fe5c7f65b",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/04a6d1a00ea5da0727ee94309a9f0d3dbaecb569",
+                "reference": "04a6d1a00ea5da0727ee94309a9f0d3dbaecb569",
                 "shasum": ""
             },
             "require": {
@@ -167,16 +167,23 @@
                     "name": "Michael Dowling",
                     "email": "mtdowling@gmail.com",
                     "homepage": "https://github.com/mtdowling"
+                },
+                {
+                    "name": "Tobias Schultze",
+                    "homepage": "https://github.com/Tobion"
                 }
             ],
-            "description": "PSR-7 message implementation",
+            "description": "PSR-7 message implementation that also provides common utility methods",
             "keywords": [
                 "http",
                 "message",
+                "request",
+                "response",
                 "stream",
-                "uri"
+                "uri",
+                "url"
             ],
-            "time": "2016-06-24 23:00:38"
+            "time": "2017-02-21 01:20:32"
         },
         {
             "name": "ircmaxell/random-lib",
@@ -344,16 +351,16 @@
         },
         {
             "name": "pdffiller/pdffiller-php-api-client",
-            "version": "1.6.1",
+            "version": "1.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pdffiller/pdffiller-php-api-client.git",
-                "reference": "17a434bfed955ebd9f5ccc94ebcc99e01914be58"
+                "reference": "999deec40c8678aceb3f9aaa7b00602b047853da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pdffiller/pdffiller-php-api-client/zipball/17a434bfed955ebd9f5ccc94ebcc99e01914be58",
-                "reference": "17a434bfed955ebd9f5ccc94ebcc99e01914be58",
+                "url": "https://api.github.com/repos/pdffiller/pdffiller-php-api-client/zipball/999deec40c8678aceb3f9aaa7b00602b047853da",
+                "reference": "999deec40c8678aceb3f9aaa7b00602b047853da",
                 "shasum": ""
             },
             "require": {
@@ -374,7 +381,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "PHP client for pdffiller.com REST API",
-            "time": "2017-01-31 16:21:09"
+            "time": "2017-02-16 08:02:18"
         },
         {
             "name": "psr/http-message",
@@ -487,16 +494,16 @@
         },
         {
             "name": "symfony/translation",
-            "version": "v3.2.2",
+            "version": "v3.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
-                "reference": "6520f3d4cce604d9dd1e86cac7af954984dd9bda"
+                "reference": "d6825c6bb2f1da13f564678f9f236fe8242c0029"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation/zipball/6520f3d4cce604d9dd1e86cac7af954984dd9bda",
-                "reference": "6520f3d4cce604d9dd1e86cac7af954984dd9bda",
+                "url": "https://api.github.com/repos/symfony/translation/zipball/d6825c6bb2f1da13f564678f9f236fe8242c0029",
+                "reference": "d6825c6bb2f1da13f564678f9f236fe8242c0029",
                 "shasum": ""
             },
             "require": {
@@ -547,20 +554,20 @@
             ],
             "description": "Symfony Translation Component",
             "homepage": "https://symfony.com",
-            "time": "2017-01-02 20:32:22"
+            "time": "2017-02-16 22:46:52"
         },
         {
-            "name": "weew/php-helpers-array",
-            "version": "v1.3.0",
+            "name": "weew/helpers-array",
+            "version": "v1.3.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/weew/php-helpers-array.git",
-                "reference": "d8f391106e6093c655ba47f9a95e9dcc0ed68c50"
+                "url": "https://github.com/weew/helpers-array.git",
+                "reference": "9bff63111f9765b4277750db8d276d92b3e16ed0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/weew/php-helpers-array/zipball/d8f391106e6093c655ba47f9a95e9dcc0ed68c50",
-                "reference": "d8f391106e6093c655ba47f9a95e9dcc0ed68c50",
+                "url": "https://api.github.com/repos/weew/helpers-array/zipball/9bff63111f9765b4277750db8d276d92b3e16ed0",
+                "reference": "9bff63111f9765b4277750db8d276d92b3e16ed0",
                 "shasum": ""
             },
             "require-dev": {
@@ -584,8 +591,7 @@
                 }
             ],
             "description": "Useful collection of php array helpers.",
-            "abandoned": "weew/helpers-array",
-            "time": "2016-04-22 12:13:41"
+            "time": "2016-07-21 11:18:01"
         }
     ],
     "packages-dev": [],

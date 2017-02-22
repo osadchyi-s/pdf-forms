@@ -1,10 +1,10 @@
 {
-    "name": "osadchyi.s/pdf-forms",
+    "name": "pdffiller/wp-integration-pdf-forms",
     "description": "Html Form data to PDF Document",
     "authors": [
         {
-            "name": "Osadchyi Serhii",
-            "email": "sergijlys@gmail.com"
+            "name": "PDFFiller Team",
+            "email": "integrations@pdffiller.com"
         }
     ],
     "autoload": {
@@ -13,13 +13,7 @@
         }
     },
     "require": {
-        "weew/php-helpers-array": "^1.3",
+        "weew/helpers-array": "^1.3",
         "pdffiller/pdffiller-php-api-client": "^1.6.1"
-    },
-    "repositories": [
-        {
-            "type": "git",
-            "url": "git@github.com:osadchyi-s/pdffiller-php-api-client.git"
-        }
-    ]
+    }
 }

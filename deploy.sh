@@ -5,7 +5,7 @@
 # The difference is that this script lives in the plugin's git repo & doesn't require an existing SVN repo.
 
 # main config
-PLUGINSLUG=${PWD##*/} # returns basename of current directory
+PLUGINSLUG="pdf-forms" # returns basename of current directory
 CURRENTDIR=`pwd`
 MAINFILE="pdf_forms.php" # this should be the name of your main php file in the wordpress plugin
 SVNUSER="pdffillerintegrations" # your svn username (case sensitive)
@@ -14,8 +14,8 @@ SVNUSER="pdffillerintegrations" # your svn username (case sensitive)
 GITPATH="$CURRENTDIR/" # this file should be in the base of your git repository
 
 # svn config
-SVNPATH="/tmp/$PLUGINSLUG" # path to a temp SVN repo. No trailing slash required and don't add trunk.
-SVNURL="http://plugins.svn.wordpress.org/$PLUGINSLUG" # Remote SVN repo on wordpress.org, with no trailing slash
+SVNPATH="$PWD/$PLUGINSLUG" # path to a temp SVN repo. No trailing slash required and don't add trunk.
+SVNURL="https://plugins.svn.wordpress.org/$PLUGINSLUG" # Remote SVN repo on wordpress.org, with no trailing slash
 
 # Let's begin...
 echo ".........................................."
@@ -57,6 +57,7 @@ git checkout-index -a -f --prefix=$SVNPATH/trunk/
 echo "Ignoring github specific files and deployment script"
 svn propset svn:ignore "deploy.sh
 README.md
+composer.lock
 .git
 .gitignore" "$SVNPATH/trunk/"
 
@@ -64,13 +65,28 @@ echo "Changing directory to SVN and committing to trunk"
 cd $SVNPATH/trunk/
 # Add all new files that are not set to be ignored
 svn status | grep -v "^.[ \t]*\..*" | grep "^?" | awk '{print $2}' | xargs svn add
-svn commit --username=$SVNUSER -m "$COMMITMSG"
+svn commit --username=$SVNUSER --password=$SVNPASSWORD -m "$COMMITMSG"
 
 # echo "Creating new SVN tag & committing it"
 cd $SVNPATH
-svn copy trunk/ tags/$NEWVERSION1/
-cd $SVNPATH/tags/$NEWVERSION1
-svn commit --username=$SVNUSER -m "Tag $NEWVERSION1"
+
+svn remove assets;
+svn copy trunk/screenshots/ assets
+echo "copied trunk screenshots to assets";
+#cd $SVNPATH/tags/$NEWVERSION1
+svn commit --username=$SVNUSER --password=$SVNPASSWORD -m "Replace screenshots"
+
+# check if the new version is unique
+if [ -d tags/$NEWVERSION1 ]
+then
+    echo "This tag is already exist";
+    exit 1;
+fi;
+
+svn copy trunk/ tags/$NEWVERSION1
+echo "copied trunk to tag dir";
+#cd $SVNPATH/tags/$NEWVERSION1
+svn commit --username=$SVNUSER --password=$SVNPASSWORD -m "Tag $NEWVERSION1"
 
 echo "Removing temporary directory $SVNPATH"
 rm -fr $SVNPATH/

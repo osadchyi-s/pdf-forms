@@ -32,7 +32,7 @@ class FillableFormShortcode
             );
         }
 
-        $submitLocation = get_post_meta((int) $post->ID, 'pdfform_submit_location', true);
+        $submitLocation = get_post_meta((int) $post->ID, 'pdfform_submit_location_pdfform_submit_location', true);
         empty($submitLocation) ? $submitLocation = 'bottom' : 'nothing';
 
         $submitMessage = get_post_meta((int) $post->ID, 'pdfform_submit_message_pdfform_submit_message', true);
@@ -91,11 +91,11 @@ class FillableFormShortcode
 
         wp_enqueue_script( 'jquery-form' );
 
-        $messageSuccess = get_post_meta($this->postId, 'pdfform_mesage_success', true);
-        $messageFail = get_post_meta($this->postId, 'pdfform_mesage_fail', true);
+        $messageSuccess = get_post_meta((int)$this->postId, 'pdfform_message_success_pdfform_message_success', true);
+        $messageFail = get_post_meta((int)$this->postId, 'pdfform_message_fail_pdfform_message_fail', true);
 
-        empty($messageSuccess) ? $messageSuccess = TextsSettingsModel::getSuccessMesage() : 'nothing';
-        empty($messageFail) ? $messageFail = TextsSettingsModel::getFailMesage() : 'nothing';
+        empty($messageSuccess) ? $messageSuccess = TextsSettingsModel::getSuccessMesage() : $messageSuccess;
+        empty($messageFail) ? $messageFail = TextsSettingsModel::getFailMesage() : $messageFail;
 
         JsVariables::addVariableFront('PdfformFillableForm', [
             'adminAjaxUrl' => admin_url( 'admin-ajax.php' ),
