@@ -1,14 +1,14 @@
-=== PDF Form ===
+=== PDF Forms ===
 Contributors: pdffillerintegrations
 Donate link: http://pdffiller.com
 Tags: pdf,document,form,email,pdffiller
 Requires at least: 4.3
 Tested up to: 4.7
-Stable tag: 0.1
+Stable tag: 0.1.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-This plugin is instrument for fill form, save form as pdf and send pdf as attachments for email. All fillable form synch with PDFFiller account.
+This plugin is instrument for fill form, save form as pdf and send pdf as attachments for email. All fillable form synchronize with PDFFiller account.
 
 == Description ==
 
@@ -31,33 +31,33 @@ List of features:
 
 == Screenshots ==
 
-=Admin=
-
-1. Settings
-`/assets/screen-1.jpg`
-`/assets/screen-2.jpg`
-`/assets/screen-3.jpg`
-`/assets/screen-4.jpg`
-2. Post type pdfform
-`/assets/screen-5.jpg`
-`/assets/screen-6.jpg`
-`/assets/screen-7.jpg`
-3. Shortcodes
-`/assets/screen-8.jpg`
-`/assets/screen-9.jpg`
-`/assets/screen-10.jpg`
-`/assets/screen-11.jpg`
-4. Widgets
-`/assets/screen-12.jpg`
-`/assets/screen-13.jpg`
-5. Contact Form 7 plugin integration
-`/assets/screen-14.jpg`
-
-=FrontEnd=
-`/assets/screen-15.jpg`
-`/assets/screen-16.jpg`
+1. Main settings
+2. Messages settings
+3. Mail settings
+4. Integrations settings
+5. PDF forms list
+6. Item form
+7. Item form (setting section)
+8. Insert field
+9. Insert field (result)
+10. Insert form
+11. Insert form (result)
+12. Link To Fill widget
+13. PDF form widget
+14. Integration with Contact form 7
+15. PDF Form in content (frontend)
+16. Widgets in sidebar
 
 == Changelog ==
+
+= 0.1.3 =
+Fix fields list
+
+= 0.1.2 =
+Change screenshots
+
+= 0.1.1 =
+Small fix
 
 = 0.1 =
 First version
