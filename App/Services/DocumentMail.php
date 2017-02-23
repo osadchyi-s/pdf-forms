@@ -21,7 +21,11 @@ class DocumentMail extends MailFacade
             $pdffiller = new PDFFillerModel();
             $document = $pdffiller->saveFillableTemplates($fillableTemplateId, $fields);
 
-            $mediaData = $pdffiller->insertDocumentToMedia($document['document_id']);
+            $content = $pdffiller->getDocumentContent($document['document_id']); //insertDocumentToMedia($document['document_id']);
+            $file = tempnam(sys_get_temp_dir(), 'pdfforms');
+            $fp = fopen($file, "w");
+            fwrite($fp, $content);
+            fclose($fp);
 
             if (empty($emails)) {
                 return true;
@@ -35,9 +39,13 @@ class DocumentMail extends MailFacade
                 'subject' => $subject,
                 'message' => $message,
                 'headers' => [],
-                'attachments' => [$mediaData['file']],
+                'attachments' => [$file],
             ]);
-            return $this->send();
+
+            $result = $this->send();
+
+            unlink($file);
+            return $result;
         } catch (\Exception $e) {
             //echo $e->getMessage();
             return false;

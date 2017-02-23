@@ -13,6 +13,8 @@ class Contact7Form extends RelationsChecker implements Integration
 
     const PDF_DEFAULT_NANE = 'pdf';
 
+    protected $lastAttachId = 0;
+
     public function InitHooks()
     {
        if (!parent::checker()) {
@@ -55,10 +57,17 @@ class Contact7Form extends RelationsChecker implements Integration
             $document = $pdffiller->saveFillableTemplates($cf7['formId'], $fields);
 
             if ($cf7['withAttach'] != '0') {
-                $attach = $pdffiller->insertDocumentToMedia($document['id']);
+                //$attach = $pdffiller->insertDocumentToMedia($document['id']);
                 //$submission->add_uploaded_file( self::PDF_DEFAULT_NANE, $attach['file'] );
+
+                $content = $pdffiller->getDocumentContent($document['document_id']);
+                $file = tempnam(sys_get_temp_dir(), 'pdfforms');
+                $fp = fopen($file, "w");
+                fwrite($fp, $content);
+                fclose($fp);
+
                 $components['attachments'] = array_merge($components['attachments'], [
-                    self::PDF_DEFAULT_NANE => $attach['file']
+                    self::PDF_DEFAULT_NANE => $file,
                 ]);
             }
         }

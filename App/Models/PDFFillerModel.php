@@ -18,6 +18,8 @@ class PDFFillerModel
     const EXPIRES = 15; //1200;
     public static $PDFFillerProvider;
 
+    protected $lastAttachId = 0;
+
     public function __construct() {
         $clientId = MainSettingsModel::getSettingItemCache('pdffiller-client-id');
         $clientSecret = MainSettingsModel::getSettingItemCache('pdffiller-client-secret');
@@ -49,7 +51,8 @@ class PDFFillerModel
         return Document::download(self::$PDFFillerProvider, $documentId);
     }
 
-    public function insertDocumentToMedia($documentId) {
+    // Deprecated!!!
+    /*public function insertDocumentToMedia($documentId) {
         $content = $this->getDocumentContent($documentId);
         $document = Document::one(self::$PDFFillerProvider, $documentId);
         $upload = wp_upload_bits( str_replace('.htm', '.pdf', $document->name), null, $content, null );
@@ -66,8 +69,10 @@ class PDFFillerModel
             $attach_id = wp_insert_attachment( $attachment, basename( $upload['file'] ), null );
         }
 
+        $this->setLastAttachId($attach_id);
+
         return array_merge($upload, ['attach_id' => $attach_id]);
-    }
+    }*/
 
     public function saveFillableTemplates($fillableTemplateid, $fields) {
         $fillableTemplate = new FillableTemplate(self::$PDFFillerProvider);
