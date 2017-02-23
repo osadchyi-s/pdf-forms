@@ -11,21 +11,13 @@ class DocumentMail extends MailFacade
     const DEFAULT_SUBJECT = 'PDFForm';
     const DEFAULT_MESSAGE = 'You can download filled form.';
 
-    public function __construct()
-    {
-        parent::__construct([]);
-    }
-
     public function sendDocument($fillableTemplateId, $fields, $emails, $subject = null, $message = null) {
         try {
             $pdffiller = new PDFFillerModel();
             $document = $pdffiller->saveFillableTemplates($fillableTemplateId, $fields);
 
-            $content = $pdffiller->getDocumentContent($document['document_id']); //insertDocumentToMedia($document['document_id']);
-            $file = tempnam(sys_get_temp_dir(), 'pdfforms');
-            $fp = fopen($file, "w");
-            fwrite($fp, $content);
-            fclose($fp);
+            $filesService = new Files();
+            $filesService->setFileFromPDFFiller($document['document_id'])->removeAfterLoadSite();
 
             if (empty($emails)) {
                 return true;
@@ -39,7 +31,7 @@ class DocumentMail extends MailFacade
                 'subject' => $subject,
                 'message' => $message,
                 'headers' => [],
-                'attachments' => [$file],
+                'attachments' => [$filesService->getFullPath()],
             ]);
 
             $result = $this->send();
