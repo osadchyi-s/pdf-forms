@@ -54,7 +54,7 @@ Key features:
 == Changelog ==
 
 = 0.1.5 =
-Security: Disabled uploaded document to media library.
+Security: Disabled uploading document to media library.
 Easier integration with CF7
 Changed description
 
