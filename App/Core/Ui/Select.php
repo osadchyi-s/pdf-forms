@@ -97,6 +97,10 @@ use PdfFormsLoader\Core\Assets;
                 unset( $this->settings['label'] );
             }
 
+            if (!empty($this->settings['datalist']) && empty($this->settings['list'])) {
+                $this->settings['list'] = $this->settings['datalist'];
+            }
+
             if (is_string($this->settings['list'])) {
                 $list = explode(',', $this->settings['list']);
                 $newList = [];

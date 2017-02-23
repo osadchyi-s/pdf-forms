@@ -64,7 +64,7 @@ class FieldsMapper
         if (array_has($fillableField, 'allowCustomText')) {
             $field['type'] = 'text';
             if (array_has($fillableField, 'list')) {
-                $field['datalist'] =  $field['list'];
+                $field['list'] =  $field['list'];
                 unset($field['list']);
             }
         }
