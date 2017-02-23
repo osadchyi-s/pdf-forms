@@ -1,17 +1,17 @@
 # PDF Forms
 
-This plugin is instrument for fill form, save form as pdf and send pdf as attachments for email. All fillable form synchronize with PDFFiller account.
+Synchronize your PDFfiller account with your web-site via API to create fillable HTML documents and add new smart fields for filling.
 
-You can synchronize your pdffiller acount (via API) with your web-site. Than create html-form and fill fields.
+Now you can embed fillable forms from your PDFfiller account on your site right in WordPress. With PDF Form Filler plugin you can customize the smart fillable fields of your form, send the submitted form as PDF attachment to the designated email address(es), customize the Submit button title and information messages, select the position of the Submit button, etc.
 
-List of features:
+Key features:
 
-*   Make html submit form from fillable template.
-*   Save filled forms in PDFFiller account
-*   Send filled form to emails as attachment
-*   Integration with populary plugin Contact Form 7
-*   Put your form in content and widget area (sidebar)
-*   Put link to fill popup window to widget area (sidebar)
+* Create HTML form of fillable template
+* Save submitted forms in your PDFFiller account
+* Send completed form to the specified emails as PDF attachment
+* Integration with popular plugin Contact Form 7
+* Place the fillable form in content and widget area (sidebar)
+* Insert a link that opens a fillable form to widget area (sidebar)
 
 #### Installation
 
