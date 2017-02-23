@@ -218,7 +218,7 @@ class PdfFormsLoader {
             return $template;
         }
 
-        $templateId = (int) get_post_meta($postId, 'fillable_template_list_fillable_template_list', true);
+        $templateId = (int) get_post_meta((int)$postId, 'fillable_template_list_fillable_template_list', true);
 
         if (!empty($templateId)) {
             $dictionary = self::$PDFFillerModel->getFillableFields($templateId);
