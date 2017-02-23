@@ -3,7 +3,7 @@
 Plugin Name: PDF Form Filler
 Plugin URI: https://github.com/pdffiller/wp-integration-pdf-forms
 Description: Fill and send form
-Version: 0.1.4
+Version: 0.1.5
 Author: PDFFiller
 Author URI: https://github.com/pdffiller
 Text Domain: pdf-form
@@ -54,7 +54,7 @@ class PdfFormsLoader {
             $phpSelf = $_SERVER['PHP_SELF'];
         }
 
-        if ( isset($_GET['post']) && $_GET['post'] > 0 && get_post( strip_tags($_GET['post']) )->post_type === 'pdfforms') {
+        if ( isset($_GET['post']) && !is_array($_GET['post']) && $_GET['post'] > 0 && get_post( strip_tags($_GET['post']) )->post_type === 'pdfforms') {
             $addMetaboxes = true;
         }
         if ( isset($_GET['post_type']) && strip_tags($_GET['post_type']) === "pdfforms" && $phpSelf == '/wp-admin/post-new.php') {
@@ -218,7 +218,7 @@ class PdfFormsLoader {
             return $template;
         }
 
-        $templateId = (int) get_post_meta($postId, 'fillable_template_list_fillable_template_list', true);
+        $templateId = (int) get_post_meta((int)$postId, 'fillable_template_list_fillable_template_list', true);
 
         if (!empty($templateId)) {
             $dictionary = self::$PDFFillerModel->getFillableFields($templateId);

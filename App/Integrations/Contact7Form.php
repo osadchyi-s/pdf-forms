@@ -6,12 +6,15 @@ use PdfFormsLoader\Core\Views;
 use PdfFormsLoader\Core\Ui\Select;
 use PdfFormsLoader\Core\Ui\Switcher;
 use PdfFormsLoader\Models\PDFFillerModel;
+use PdfFormsLoader\Services\Files;
 
 class Contact7Form extends RelationsChecker implements Integration
 {
     protected $plugins = ['contact-form-7/wp-contact-form-7.php'];
 
     const PDF_DEFAULT_NANE = 'pdf';
+
+    protected $lastAttachId = 0;
 
     public function InitHooks()
     {
@@ -26,10 +29,10 @@ class Contact7Form extends RelationsChecker implements Integration
 
     protected function addHooks() {
         add_filter( 'wpcf7_editor_panels', [&$this, 'addMetaBox'] );
-        add_action( 'wpcf7_before_send_mail', [&$this, 'saveFillable'] );
+        //add_action( 'wpcf7_before_send_mail', [&$this, 'saveFillable'] );
         add_action( 'wpcf7_after_save', [&$this, 'saveOption'] );
         add_filter( 'wpcf7_form_class_attr', [&$this, 'classAttr'] );
-        //add_filter('wpcf7_mail_components', [&$this, 'addAttach'], 10, 2);
+        add_filter('wpcf7_mail_components', [&$this, 'addAttach'], 10, 2);
     }
 
     public function classAttr( $class ) {
@@ -43,7 +46,7 @@ class Contact7Form extends RelationsChecker implements Integration
         }
     }
 
-    /*public function addAttach($components, $contactForm) {
+    public function addAttach($components, $contactForm) {
         $pdffiller = new PDFFillerModel();
         $cf7 = $this->getOptions($contactForm->id());
 
@@ -55,18 +58,22 @@ class Contact7Form extends RelationsChecker implements Integration
             $document = $pdffiller->saveFillableTemplates($cf7['formId'], $fields);
 
             if ($cf7['withAttach'] != '0') {
-                $attach = $pdffiller->insertDocumentToMedia($document['id']);
+                //$attach = $pdffiller->insertDocumentToMedia($document['id']);
                 //$submission->add_uploaded_file( self::PDF_DEFAULT_NANE, $attach['file'] );
+
+                $filesService = new Files();
+                $filesService->setFileFromPDFFiller($document['document_id'])->removeAfterLoadSite();
+
                 $components['attachments'] = array_merge($components['attachments'], [
-                    self::PDF_DEFAULT_NANE => $attach['file']
+                    self::PDF_DEFAULT_NANE => $filesService->getFullPath(),
                 ]);
             }
         }
 
         return $components;
-    }*/
+    }
 
-    public function saveFillable($contactForm) {
+    /*public function saveFillable($contactForm) {
         $pdffiller = new PDFFillerModel();
         $cf7 = $this->getOptions($contactForm->id());
 
@@ -84,7 +91,7 @@ class Contact7Form extends RelationsChecker implements Integration
         }
 
         return $contactForm;
-    }
+    }*/
 
     public function addMetaBox ( $panels ) {
         $new_page = array(

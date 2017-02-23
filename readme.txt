@@ -4,7 +4,7 @@ Donate link: http://pdffiller.com
 Tags: pdf,document,form,email,pdffiller,widget,plugin
 Requires at least: 4.3
 Tested up to: 4.7
-Stable tag: 0.1.4
+Stable tag: 0.1.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -52,6 +52,11 @@ Key features:
 16. Widgets in sidebar
 
 == Changelog ==
+
+= 0.1.5 =
+Security: Disabled uploading document to media library.
+Easier integration with CF7
+Changed description
 
 = 0.1.4 =
 Changed message logic.
