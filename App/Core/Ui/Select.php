@@ -115,6 +115,10 @@ use PdfFormsLoader\Core\Assets;
                 $list = $this->settings['list'];
             }
 
+            if (!isset($this->settings['required']) && !empty($list)) {
+                $list[] = '';
+            }
+
             unset( $this->settings['list'] );
 
 			$attributes = '';

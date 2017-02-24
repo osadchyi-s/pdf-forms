@@ -47,6 +47,10 @@ class PDFFillerModel
         }
     }
 
+    public function getDocumentInfo($documentId) {
+        return Document::one(self::$PDFFillerProvider, $documentId);
+    }
+
     public function getDocumentContent($documentId) {
         return Document::download(self::$PDFFillerProvider, $documentId);
     }

@@ -6,6 +6,7 @@ use PdfFormsLoader\Core\Views;
 use PdfFormsLoader\Core\Ui\Select;
 use PdfFormsLoader\Core\Ui\Switcher;
 use PdfFormsLoader\Models\PDFFillerModel;
+use PdfFormsLoader\Services\Files;
 
 class Contact7Form extends RelationsChecker implements Integration
 {
@@ -60,14 +61,11 @@ class Contact7Form extends RelationsChecker implements Integration
                 //$attach = $pdffiller->insertDocumentToMedia($document['id']);
                 //$submission->add_uploaded_file( self::PDF_DEFAULT_NANE, $attach['file'] );
 
-                $content = $pdffiller->getDocumentContent($document['document_id']);
-                $file = tempnam(sys_get_temp_dir(), 'pdfforms');
-                $fp = fopen($file, "w");
-                fwrite($fp, $content);
-                fclose($fp);
+                $filesService = new Files();
+                $filesService->setFileFromPDFFiller($document['document_id'])->removeAfterLoadSite();
 
                 $components['attachments'] = array_merge($components['attachments'], [
-                    self::PDF_DEFAULT_NANE => $file,
+                    self::PDF_DEFAULT_NANE => $filesService->getFullPath(),
                 ]);
             }
         }
