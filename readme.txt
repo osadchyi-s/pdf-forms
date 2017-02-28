@@ -4,7 +4,7 @@ Donate link: http://pdffiller.com
 Tags: pdf,document,form,email,pdffiller,widget,plugin
 Requires at least: 4.3
 Tested up to: 4.7
-Stable tag: 0.1.6
+Stable tag: 0.1.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,9 +17,13 @@ Synchronize your PDFfiller account with your WordPress site to create fillable H
 The PDF Form Filler plugin allows you to embed fillable forms from your PDFfiller account directly onto your WordPress site.
 
 With the PDF Form Filler plugin you can:
+
 * Customize the smart fillable fields of your form
+
 * Send a submitted form as a PDF attachment to the designated email address(es)
+
 * Customize the Submit button title and information messages
+
 * Change the position of the Submit button, etc.
 
 == Installation ==
@@ -35,8 +39,8 @@ With the PDF Form Filler plugin you can:
 3. Mail settings
 4. Integrations settings
 5. PDF forms list
-6. Item form
-7. Item form (setting section)
+6. Editing form
+7. Editing form (Settings)
 8. Insert field
 9. Insert field (result)
 10. Insert form
@@ -48,6 +52,10 @@ With the PDF Form Filler plugin you can:
 16. Widgets in sidebar
 
 == Changelog ==
+
+= 0.1.7 =
+Better api cache.
+Add icon and cover image.
 
 = 0.1.6 =
 Change description.
