@@ -46,9 +46,9 @@ class EmbeddedJsClientWidget extends \WP_Widget
 
         wp_enqueue_script(
             'pdfform-embedded-js-client',
-           '//integrations-static.pdffiller.com/1.0/PDFfillerClient.js',
+            '//integrations-static.pdffiller.com/1.0.2/PDFfillerClient.js',
             array( 'jquery' ),
-            '1.0.0',
+            '1.0.2',
             true
         );
 
