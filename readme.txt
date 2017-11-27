@@ -2,9 +2,9 @@
 Contributors: pdffillerintegrations
 Donate link: http://pdffiller.com
 Tags: pdf,document,form,email,pdffiller,widget,plugin
-Requires at least: 4.3
+Requires at least: 4.5
 Tested up to: 4.7
-Stable tag: 0.1.8
+Stable tag: 0.1.9
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -52,6 +52,9 @@ With the PDF Form Filler plugin you can:
 16. Widgets in sidebar
 
 == Changelog ==
+
+= 0.1.9 =
+Changed cache timeout
 
 = 0.1.8 =
 Updated embedded js-client`s url.
