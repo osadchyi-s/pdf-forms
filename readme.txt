@@ -4,7 +4,7 @@ Donate link: http://pdffiller.com
 Tags: pdf,document,form,email,pdffiller,widget,plugin
 Requires at least: 4.5
 Tested up to: 4.7
-Stable tag: 0.1.9
+Stable tag: 0.1.10
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
