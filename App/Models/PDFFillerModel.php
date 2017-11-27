@@ -12,7 +12,7 @@ use \GuzzleHttp\Client;
 
 class PDFFillerModel
 {
-    const EXPIRES = 60;;
+    const EXPIRES = 60;
     const EXPIRES_DOCUMENT = 86400;
     public static $PDFFillerProvider;
 
