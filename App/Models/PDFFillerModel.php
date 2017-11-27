@@ -10,13 +10,10 @@ use \PDFfiller\OAuth2\Client\Provider\FillRequest;
 use \PDFfiller\OAuth2\Client\Provider\Document;
 use \GuzzleHttp\Client;
 
-/*error_reporting(E_ALL);
-ini_set('display_errors', 1);*/
-
 class PDFFillerModel
 {
-    const EXPIRES = 60; //1200;
-    const EXPIRES_DOCUMENT = 3600 * 24; //1200;
+    const EXPIRES = 60;;
+    const EXPIRES_DOCUMENT = 86400;
     public static $PDFFillerProvider;
 
     protected $lastAttachId = 0;
