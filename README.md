@@ -1,17 +1,18 @@
 # PDF Forms
 
-Synchronize your PDFfiller account with your web-site via API to create fillable HTML documents and add new smart fields for filling.
+**Easily embed surveys, order forms, registration templates and applications on your WordPress site and securely collect information from customers and partners** 
 
-Now you can embed fillable forms from your PDFfiller account on your site right in WordPress. With PDF Form Filler plugin you can customize the smart fillable fields of your form, send the submitted form as PDF attachment to the designated email address(es), customize the Submit button title and information messages, select the position of the Submit button, etc.
+Make it easy for your visitors to submit their data directly from your blog or website. Embed fillable fields from interactive fillable forms stored in your PDFfiller account on a WordPress-powered website in just a few clicks. Your customers and partners can quickly fill out surveys, order forms, registration templates and applications from any internet connected device. No more pens, clipboards or illegible handwriting. 
 
-Key features:
+**How PDF Form Filler plugin works:**
 
-* Create HTML form of fillable template
-* Save submitted forms in your PDFFiller account
-* Send completed form to the specified emails as PDF attachment
-* Integration with popular plugin Contact Form 7
-* Place the fillable form in content and widget area (sidebar)
-* Insert a link that opens a fillable form to widget area (sidebar)
+* Connect your PDFfiller account to a WordPress site to access interactive fillable forms
+* Embed fillable fields from interactive fillable forms on your WordPress website using shortcodes
+* Choose how your customers and partners will access the fillable form from your WordPress site: via a button or a customized widget
+* Receive an instant email notification after a customer completes your form. The completed PDF copy will be attached to the email as well as stored on your secure PDFfiller account. 
+* Don’t waste time exporting data from fillable forms. Collect information from filled in documents and easily add it to a CRM or export it to an Excel spreadsheet. 
+* Easily integrate PDF Form Filler with Contact Form 7 to expand the functionality of both plugins
+
 
 #### Installation
 
