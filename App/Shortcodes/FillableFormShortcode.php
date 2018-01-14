@@ -61,7 +61,6 @@ class FillableFormShortcode
 
         }
 
-
         $formId = $fields['pdfform-form-id'];
         $fillableTemplateId = get_post_meta((int) $formId, 'fillable_template_list_fillable_template_list', true);
 
@@ -97,7 +96,7 @@ class FillableFormShortcode
         empty($messageSuccess) ? $messageSuccess = TextsSettingsModel::getSuccessMesage() : $messageSuccess;
         empty($messageFail) ? $messageFail = TextsSettingsModel::getFailMesage() : $messageFail;
 
-        JsVariables::addVariableFront('PdfformFillableForm', [
+        JsVariables::addVariableFront('PdfformFillableForm_' . $this->postId, [
             'adminAjaxUrl' => admin_url( 'admin-ajax.php' ),
             'messageSuccess' => $messageSuccess,
             'messageFail' => $messageFail,

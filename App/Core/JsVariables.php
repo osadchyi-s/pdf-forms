@@ -25,6 +25,7 @@ class JsVariables
         self::$variables[$name] = $value;
         $JS = new self;
         $JS->localize();
+        //add_action( 'admin_init', [$JS, 'localize'] );
     }
 
     public function localize() {

@@ -10,13 +10,13 @@ use \PDFfiller\OAuth2\Client\Provider\FillRequest;
 use \PDFfiller\OAuth2\Client\Provider\Document;
 use \GuzzleHttp\Client;
 
-/*error_reporting(E_ALL);
-ini_set('display_errors', 1);*/
-
 class PDFFillerModel
 {
-    const EXPIRES = 15; //1200;
+    const EXPIRES = 60;
+    const EXPIRES_DOCUMENT = 86400;
     public static $PDFFillerProvider;
+
+    protected $lastAttachId = 0;
 
     public function __construct() {
         $clientId = MainSettingsModel::getSettingItemCache('pdffiller-client-id');
@@ -45,34 +45,36 @@ class PDFFillerModel
         }
     }
 
-    public function getDocumentContent($documentId) {
-        return Document::download(self::$PDFFillerProvider, $documentId);
-    }
+    public function getDocumentInfo($documentId) {
+        $document = get_option('pdfform_document_' . $documentId);
 
-    public function insertDocumentToMedia($documentId) {
-        $content = $this->getDocumentContent($documentId);
-        $document = Document::one(self::$PDFFillerProvider, $documentId);
-        $upload = wp_upload_bits( str_replace('.htm', '.pdf', $document->name), null, $content, null );
-        $attach_id = 0;
-        if ($upload['error'] === false) {
-            $attachment = array(
-                'guid'           => $upload['file'],
-                'post_mime_type' => 'pdf',
-                'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $upload['file'] ) ),
-                'post_content'   => '',
-                'post_status'    => 'inherit'
-            );
-            $attach_id = wp_insert_attachment( $attachment, basename( $upload['file'] ), null );
+        if (empty($document['expires']) || $document['expires'] < time()) {
+            try{
+                $response = Document::one(self::$PDFFillerProvider, $documentId);
+
+                $data = new \stdClass;
+                $data->id = $response->id;
+                $data->name = $response->name;
+
+                update_option('pdfform_document_' . $documentId, ['expires' => time() + self::EXPIRES_DOCUMENT, 'data' => $data]);
+                return $response;
+            } catch(\PDFfiller\OAuth2\Client\Provider\Core\Exception $e) {
+                return null;
+            }
         }
 
-        return array_merge($upload, ['attach_id' => $attach_id]);
+        return $document['data'];
+    }
+
+    public function getDocumentContent($documentId) {
+        return Document::download(self::$PDFFillerProvider, $documentId);
     }
 
     public function saveFillableTemplates($fillableTemplateid, $fields) {
         $fillableTemplate = new FillableTemplate(self::$PDFFillerProvider);
         $fillableTemplate->document_id = $fillableTemplateid;
         $fillableTemplate->fillable_fields = $fields;
-        
+
         $newDoc = $fillableTemplate->save();
         $this->renameDocument($newDoc['document_id']);
 
@@ -81,7 +83,7 @@ class PDFFillerModel
 
     public function renameDocument($documentId) {
 
-        $document = Document::one(self::$PDFFillerProvider,$documentId);
+        $document = $this->getDocumentInfo($documentId);
 
         $arr = (explode('.', $document->name));
         array_pop($arr);
@@ -95,16 +97,16 @@ class PDFFillerModel
     }
 
     public function getFillableTemplates() {
-         $fillableTemplates = get_option('pdfform_fillable_templates');
+        $fillableTemplates = get_option('pdfform_fillable_templates');
 
-         if (empty($fillableTemplates['expires']) || $fillableTemplates['expires'] < time()) {
+        if (empty($fillableTemplates['expires']) || $fillableTemplates['expires'] < time()) {
             try{
                 $response = FillableTemplate::all(self::$PDFFillerProvider, ['perpage' => 100]);
 
                 $documents = [];
                 foreach($response->getList() as $item) {
                     try {
-                        $document = Document::one(self::$PDFFillerProvider, $item->id);
+                        $document = $this->getDocumentInfo($item->id);
                         $documents[$item->id] = $document->name;
                     } catch(\PDFfiller\OAuth2\Client\Provider\Core\Exception $e) {
 
@@ -115,7 +117,7 @@ class PDFFillerModel
             } catch(\PDFfiller\OAuth2\Client\Provider\Core\Exception $e) {
                 return null;
             }
-         }
+        }
 
         return $fillableTemplates['items'];
     }
@@ -145,10 +147,10 @@ class PDFFillerModel
                 $l2f = [];
                 foreach ($response->getList() as $id => $item) {
                     try {
-                        $document = Document::one(self::$PDFFillerProvider, $item->document_id);
+                        //$document = Document::one(self::$PDFFillerProvider, $item->document_id);
                         $l2f[] = [
                             'document_id' => $item->document_id,
-                            'name' => $document->name,
+                            'name' => $item->document_name,
                             'url' => $item->url,
                         ];
                     } catch (\PDFfiller\OAuth2\Client\Provider\Core\Exception $e) {
