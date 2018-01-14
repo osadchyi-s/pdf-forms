@@ -64,6 +64,9 @@ Make it easy for your visitors to submit their data directly from your blog or w
 
 == Changelog ==
 
+= 0.1.14 =
+Fix modal window of fields list
+
 = 0.1.9 =
 Changed cache timeout
 
