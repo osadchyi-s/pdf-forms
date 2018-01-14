@@ -3,7 +3,7 @@
 Plugin Name: PDF Forms
 Plugin URI: https://github.com/pdffiller/wp-integration-pdf-forms
 Description: Fill and send form
-Version: 0.1.3
+Version: 0.1.4
 Author: PDFFiller API team
 Author URI: https://github.com/pdffiller
 Text Domain: pdf-form
@@ -239,7 +239,7 @@ class PdfFormsLoader {
 
         $fields = [];
         foreach($template as $field) {
-            $fields[] = (object) [
+            $fields[$field->name] = (object) [
                 'fieldAttr' => $fieldsMapper->prepareShortCodeAttr($field),
                 'text' => $field->name,
                 'type' => 'button',
@@ -262,7 +262,7 @@ class PdfFormsLoader {
                         'file' => 'button.js',
                         'parent' => ['jquery'],
                         'footer' => true,
-                        'version' => '1.0',
+                        'version' => '5.0',
                     ]
                 ],
             ],
@@ -294,7 +294,7 @@ class PdfFormsLoader {
                         'file' => 'button.js',
                         'parent' => ['jquery'],
                         'footer' => true,
-                        'version' => '1.0',
+                        'version' => '5.0',
                     ]
                 ],
             ],

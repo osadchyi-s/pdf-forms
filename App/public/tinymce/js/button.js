@@ -1,25 +1,10 @@
 tinymce.PluginManager.add( 'pdfforms_button', function( editor, url ) {
 
-    PdfFormGlobalVariables.pdfforms_button.fields = _.map(PdfFormGlobalVariables.pdfforms_button.fields, function(field) {
-        field.onclick = function(e) {
-            var shortcodeAttr = '';
-            _.each(field.fieldAttr, function(value, key) {
-                shortcodeAttr = shortcodeAttr + ' ' + key + '="' + value + '"';
-            }, shortcodeAttr);
-
-            var shortcode = '[pdfformfield ' + shortcodeAttr;
-            /*var list = field['list'];
-            if (list.length > 0) {
-                shortcode = shortcode + ' list="' + list + '"';
-            }*/
-            shortcode = shortcode + ']';
-            console.log(shortcode);
-            editor.insertContent(shortcode);
-        }
-        return field;
+    PdfFormGlobalVariables.pdfforms_button.fieldsList =  _.map(PdfFormGlobalVariables.pdfforms_button.fields, function(field) {
+        return {
+            "text": field.text, "value": field.text
+        };
     });
-
-    console.log(PdfFormGlobalVariables.pdfforms_button.fields);
 
     // Add Button to Visual Editor Toolbar
     editor.addButton('pdfforms_button', {
@@ -38,11 +23,34 @@ tinymce.PluginManager.add( 'pdfforms_button', function( editor, url ) {
             title: 'Insert form field',
             width: jQuery( window ).width() * 0.3,
             // minus head and foot of dialog box
-            height: (jQuery( window ).height() - 36 - 50) * 0.7,
-            inline: 1,
+            height: (jQuery( window ).height() - 36 - 50) * 0.15,
             id: 'plugin-slug-insert-dialog',
-            body: PdfFormGlobalVariables.pdfforms_button.fields,
+            body:[
+                {
+                    type   : 'listbox',
+                    id     : 'fields-list',
+                    name   : 'fields_list',
+                    label  : 'Choose a field',
+                    values : PdfFormGlobalVariables.pdfforms_button.fieldsList
+                }
+            ],
             buttons: [
+                {
+                    text: 'Insert',
+                    onclick: function(e) {
+                        var fieldKey = jQuery('#fields-list button').text();
+
+                        var field = PdfFormGlobalVariables.pdfforms_button.fields[fieldKey];
+
+                        var shortcodeAttr = '';
+                        _.each(field.fieldAttr, function(value, key) {
+                            shortcodeAttr = shortcodeAttr + ' ' + key + '="' + value + '"';
+                        }, shortcodeAttr);
+
+                        var shortcode = '[pdfformfield ' + shortcodeAttr + ']';
+                        editor.insertContent(shortcode);
+                    }
+                },
                 {
                     text: 'Cancel',
                     id: 'plugin-slug-button-cancel',
@@ -64,7 +72,6 @@ tinymce.PluginManager.add( 'pdfforms_list_button', function( editor, url ) {
         }
         return document;
     });
-    //console.log(window.PdfFormGlobalVariables.pdfforms_list_button);
 
     // Add Button to Visual Editor Toolbar
     editor.addButton('pdfforms_list_button', {
